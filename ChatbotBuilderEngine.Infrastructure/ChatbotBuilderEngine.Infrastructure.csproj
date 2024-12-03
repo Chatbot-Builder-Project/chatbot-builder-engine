@@ -7,6 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Protobuf Include="Protos/v1/shared/*.proto" GrpcServices="None" ProtoRoot="Protos" AdditionalProtocOptions="--proto_path=Protos/v1/shared" />
+        <Protobuf Include="Protos/v1/workflows/*.proto" GrpcServices="Server" ProtoRoot="Protos" AdditionalProtocOptions="--proto_path=Protos/v1/workflows" />
+        <Protobuf Include="Protos/v1/workflows/components/*.proto" GrpcServices="None" ProtoRoot="Protos" AdditionalProtocOptions="--proto_path=Protos/v1/workflows/components" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Google.Protobuf" Version="3.29.0" />
       <PackageReference Include="Grpc.Net.Client" Version="2.67.0" />
       <PackageReference Include="Grpc.Tools" Version="2.67.0">
