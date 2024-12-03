@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatbotBuilderEngine", "ChatbotBuilderEngine\ChatbotBuilderEngine.csproj", "{CAF85D7E-3F8B-4016-8149-91C5FA479092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatbotBuilderEngine.Infrastructure", "ChatbotBuilderEngine.Infrastructure\ChatbotBuilderEngine.Infrastructure.csproj", "{B4E978C7-4B6F-4D68-8446-3A332D1A1665}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatbotBuilderEngine.Presentation", "ChatbotBuilderEngine.Presentation\ChatbotBuilderEngine.Presentation.csproj", "{B4E978C7-4B6F-4D68-8446-3A332D1A1665}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

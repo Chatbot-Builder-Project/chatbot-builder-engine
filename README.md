@@ -4,9 +4,9 @@
 
 ### Setting Up Protos
 
-1. Navigate to the infrastructure layer:
+1. Navigate to the presentation layer:
     ```bash
-    cd ChatbotBuilderEngine.Infrastructure
+    cd ChatbotBuilderEngine.Presentation
     ```
 
 2. Clone the `chatbot-builder-protos` repository:
