@@ -1,0 +1,9 @@
+services:
+  chatbot-builder-engine:
+    build:
+      context: .
+      dockerfile: ChatbotBuilderEngine/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    container_name: chatbot-builder-engine

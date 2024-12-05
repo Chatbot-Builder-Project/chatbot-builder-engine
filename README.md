@@ -41,3 +41,8 @@
     ```bash
     docker run -d -p 8080:8080 -p 8081:8081 chatbot-builder-engine
     ```
+
+- Or simply use the docker-compose:
+    ```bash
+    docker-compose up --build -d
+    ```
