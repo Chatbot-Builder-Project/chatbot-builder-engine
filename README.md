@@ -24,8 +24,20 @@
    ```bash
    cp -r chatbot-builder-protos/protos Protos
    ```
-   
+
 4. Build the solution:
    ```bash
    dotnet build
    ```
+
+### Running the Application
+
+- The dockerfile has to be built from the root directory to ensure broader context in the building steps.
+    ```bash
+    docker build -f ChatbotBuilderEngine/Dockerfile -t chatbot-builder-engine .
+    ```
+
+- Then run the docker container:
+    ```bash
+    docker run -d -p 8080:8080 -p 8081:8081 chatbot-builder-engine
+    ```

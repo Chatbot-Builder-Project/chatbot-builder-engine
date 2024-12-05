@@ -9,6 +9,12 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["ChatbotBuilderEngine/ChatbotBuilderEngine.csproj", "ChatbotBuilderEngine/"]
 RUN dotnet restore "ChatbotBuilderEngine/ChatbotBuilderEngine.csproj"
+
+WORKDIR /src/ChatbotBuilderEngine.Presentation
+RUN git clone https://github.com/Chatbot-Builder-Project/chatbot-builder-protos.git
+RUN cp -r chatbot-builder-protos/protos Protos
+
+WORKDIR /src
 COPY . .
 WORKDIR "/src/ChatbotBuilderEngine"
 RUN dotnet build "ChatbotBuilderEngine.csproj" -c $BUILD_CONFIGURATION -o /app/build
