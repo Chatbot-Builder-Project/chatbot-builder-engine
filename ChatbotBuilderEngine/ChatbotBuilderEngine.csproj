@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
         <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.67.0" />
     </ItemGroup>
@@ -19,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ChatbotBuilderEngine.Application\ChatbotBuilderEngine.Application.csproj" />
       <ProjectReference Include="..\ChatbotBuilderEngine.Presentation\ChatbotBuilderEngine.Presentation.csproj" />
     </ItemGroup>
 
