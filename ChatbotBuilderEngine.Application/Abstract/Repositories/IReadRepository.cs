@@ -1,6 +1,7 @@
 ﻿using Ardalis.Specification;
 using ChatbotBuilderEngine.Application.Abstract.Specifications;
 using ChatbotBuilderEngine.Application.Shared;
+using ChatbotBuilderEngine.Application.Shared.Responses;
 using ChatbotBuilderEngine.Domain.Entities;
 
 namespace ChatbotBuilderEngine.Application.Abstract.Repositories;

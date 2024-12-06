@@ -1,4 +1,4 @@
-﻿namespace ChatbotBuilderEngine.Application.Shared;
+﻿namespace ChatbotBuilderEngine.Application.Shared.Responses;
 
 public sealed class PageResponse<TItem>
 {
