@@ -1,5 +1,6 @@
 using ChatbotBuilderEngine.DependencyInjection;
 using ChatbotBuilderEngine.Presentation;
+using ChatbotBuilderEngine.WebApplicationExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapGrpcReflectionService();
 }
+
+await app.MigrateAsync();
 
 app.MapGrpcService<WorkflowService>();
 
