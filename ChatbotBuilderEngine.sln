@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatbotBuilderEngine.Domain
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatbotBuilderEngine.Application", "ChatbotBuilderEngine.Application\ChatbotBuilderEngine.Application.csproj", "{CD69BF49-8C5A-4DBE-98ED-01C5C69AC5F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatbotBuilderEngine.Infrastructure", "ChatbotBuilderEngine.Infrastructure\ChatbotBuilderEngine.Infrastructure.csproj", "{5F013AE6-C2BD-42BE-ABF4-63869290D5C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{CD69BF49-8C5A-4DBE-98ED-01C5C69AC5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD69BF49-8C5A-4DBE-98ED-01C5C69AC5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD69BF49-8C5A-4DBE-98ED-01C5C69AC5F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F013AE6-C2BD-42BE-ABF4-63869290D5C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F013AE6-C2BD-42BE-ABF4-63869290D5C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F013AE6-C2BD-42BE-ABF4-63869290D5C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F013AE6-C2BD-42BE-ABF4-63869290D5C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
