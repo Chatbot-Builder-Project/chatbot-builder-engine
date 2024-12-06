@@ -1,4 +1,6 @@
-﻿using ChatbotBuilderEngine.Persistence;
+﻿using ChatbotBuilderEngine.Application.Abstract.Repositories;
+using ChatbotBuilderEngine.Persistence;
+using ChatbotBuilderEngine.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatbotBuilderEngine.DependencyInjection;
@@ -13,5 +15,9 @@ public static class PersistenceServicesExtension
             options.UseSqlServer(configuration.GetConnectionString("AppDbContextConnection") ??
                                  throw new ArgumentException("AppDbContextConnection not found"));
         });
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+        services.AddScoped(typeof(ICudRepository<>), typeof(CudRepository<>));
     }
 }

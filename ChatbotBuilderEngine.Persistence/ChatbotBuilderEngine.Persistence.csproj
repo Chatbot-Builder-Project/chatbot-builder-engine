@@ -7,11 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="8.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ChatbotBuilderEngine.Application\ChatbotBuilderEngine.Application.csproj" />
       <ProjectReference Include="..\ChatbotBuilderEngine.Domain\ChatbotBuilderEngine.Domain.csproj" />
     </ItemGroup>
 
