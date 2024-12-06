@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
+builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddPresentationServices();
 
 var app = builder.Build();
