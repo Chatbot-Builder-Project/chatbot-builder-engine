@@ -1,8 +1,12 @@
 using ChatbotBuilderEngine.DependencyInjection;
 using ChatbotBuilderEngine.Presentation;
 using ChatbotBuilderEngine.WebApplicationExtensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
@@ -18,6 +22,7 @@ if (app.Environment.IsDevelopment())
 
 await app.MigrateAsync();
 
+app.UseSerilogRequestLogging();
 app.MapGrpcService<WorkflowService>();
 
-app.Run();
+await app.RunAsync();
