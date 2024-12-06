@@ -1,7 +1,7 @@
-﻿using ChatbotBuilderEngine.Application.Shared.Notifications;
+﻿using ChatbotBuilderEngine.Application.Core.Shared.Notifications;
 using MediatR;
 
-namespace ChatbotBuilderEngine.Application.Abstract.Messaging;
+namespace ChatbotBuilderEngine.Application.Core.Abstract.Messaging;
 
 /// <summary>
 /// Implement this when you want to handle some logic within a unit of work transaction.

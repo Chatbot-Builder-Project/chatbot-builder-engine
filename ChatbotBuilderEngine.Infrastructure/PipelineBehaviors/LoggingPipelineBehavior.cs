@@ -1,4 +1,4 @@
-﻿using ChatbotBuilderEngine.Domain.Shared;
+﻿using ChatbotBuilderEngine.Domain.Core.Primitives;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;

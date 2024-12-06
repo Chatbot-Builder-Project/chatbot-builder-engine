@@ -1,7 +1,7 @@
-﻿using ChatbotBuilderEngine.Domain.Shared;
+﻿using ChatbotBuilderEngine.Domain.Core.Primitives;
 using MediatR;
 
-namespace ChatbotBuilderEngine.Application.Abstract.Messaging;
+namespace ChatbotBuilderEngine.Application.Core.Abstract.Messaging;
 
 /// <summary>
 /// A handler for a command that does not return a response.

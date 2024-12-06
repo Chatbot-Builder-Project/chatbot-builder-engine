@@ -1,4 +1,4 @@
-﻿using ChatbotBuilderEngine.Application.Abstract.Repositories;
+﻿using ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
 using ChatbotBuilderEngine.Persistence;
 using ChatbotBuilderEngine.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;

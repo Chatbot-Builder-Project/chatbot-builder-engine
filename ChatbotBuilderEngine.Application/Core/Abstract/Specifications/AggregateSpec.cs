@@ -1,6 +1,6 @@
 ﻿using Ardalis.Specification;
 
-namespace ChatbotBuilderEngine.Application.Abstract.Specifications;
+namespace ChatbotBuilderEngine.Application.Core.Abstract.Specifications;
 
 /// <summary>
 /// A specification that defines how to aggregate entities into a specified result type.

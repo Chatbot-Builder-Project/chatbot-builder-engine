@@ -1,12 +1,12 @@
 ﻿using Ardalis.Specification;
-using ChatbotBuilderEngine.Application.Abstract.Specifications;
-using ChatbotBuilderEngine.Application.Shared;
-using ChatbotBuilderEngine.Application.Shared.Responses;
-using ChatbotBuilderEngine.Domain.Entities;
+using ChatbotBuilderEngine.Application.Core.Abstract.Specifications;
+using ChatbotBuilderEngine.Application.Core.Shared;
+using ChatbotBuilderEngine.Application.Core.Shared.Responses;
+using ChatbotBuilderEngine.Domain.Core.Primitives;
 
-namespace ChatbotBuilderEngine.Application.Abstract.Repositories;
+namespace ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
 
-public interface IReadRepository<TEntity> where TEntity : BaseEntity
+public interface IReadRepository<TEntity> where TEntity : Entity
 {
     /// <summary>
     /// Checks if any entity satisfies the given specification.

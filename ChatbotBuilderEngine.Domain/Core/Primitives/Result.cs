@@ -1,4 +1,4 @@
-﻿namespace ChatbotBuilderEngine.Domain.Shared;
+﻿namespace ChatbotBuilderEngine.Domain.Core.Primitives;
 
 public class Result
 {

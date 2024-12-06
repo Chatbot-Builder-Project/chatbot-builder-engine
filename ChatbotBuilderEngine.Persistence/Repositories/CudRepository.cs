@@ -1,9 +1,9 @@
-﻿using ChatbotBuilderEngine.Application.Abstract.Repositories;
-using ChatbotBuilderEngine.Domain.Entities;
+﻿using ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
+using ChatbotBuilderEngine.Domain.Core.Primitives;
 
 namespace ChatbotBuilderEngine.Persistence.Repositories;
 
-public class CudRepository<TEntity> : ICudRepository<TEntity> where TEntity : BaseEntity
+public class CudRepository<TEntity> : ICudRepository<TEntity> where TEntity : Entity
 {
     private readonly AppDbContext _context;
 

@@ -1,5 +1,5 @@
-﻿using ChatbotBuilderEngine.Application.Abstract.Repositories;
-using ChatbotBuilderEngine.Application.Shared.Notifications;
+﻿using ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
+using ChatbotBuilderEngine.Application.Core.Shared.Notifications;
 using MediatR;
 
 namespace ChatbotBuilderEngine.Persistence.Repositories;

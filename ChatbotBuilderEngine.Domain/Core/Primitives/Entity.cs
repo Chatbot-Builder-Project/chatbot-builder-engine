@@ -1,6 +1,6 @@
-﻿namespace ChatbotBuilderEngine.Domain.Entities;
+﻿namespace ChatbotBuilderEngine.Domain.Core.Primitives;
 
-public abstract class BaseEntity
+public abstract class Entity
 {
     public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }

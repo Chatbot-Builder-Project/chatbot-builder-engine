@@ -1,5 +1,5 @@
-﻿using ChatbotBuilderEngine.Application.Abstract.Messaging;
-using ChatbotBuilderEngine.Application.Shared.Notifications;
+﻿using ChatbotBuilderEngine.Application.Core.Abstract.Messaging;
+using ChatbotBuilderEngine.Application.Core.Shared.Notifications;
 using FluentValidation;
 using MediatR;
 

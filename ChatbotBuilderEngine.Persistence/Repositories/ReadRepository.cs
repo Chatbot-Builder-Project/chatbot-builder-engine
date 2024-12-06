@@ -1,16 +1,16 @@
 ﻿using Ardalis.Specification;
 using Ardalis.Specification.EntityFrameworkCore;
-using ChatbotBuilderEngine.Application.Abstract.Repositories;
-using ChatbotBuilderEngine.Application.Abstract.Specifications;
-using ChatbotBuilderEngine.Application.Shared;
-using ChatbotBuilderEngine.Application.Shared.Responses;
-using ChatbotBuilderEngine.Domain.Entities;
+using ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
+using ChatbotBuilderEngine.Application.Core.Abstract.Specifications;
+using ChatbotBuilderEngine.Application.Core.Shared;
+using ChatbotBuilderEngine.Application.Core.Shared.Responses;
+using ChatbotBuilderEngine.Domain.Core.Primitives;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatbotBuilderEngine.Persistence.Repositories;
 
 public class ReadRepository<TEntity> : IReadRepository<TEntity>
-    where TEntity : BaseEntity
+    where TEntity : Entity
 {
     private readonly AppDbContext _context;
 
