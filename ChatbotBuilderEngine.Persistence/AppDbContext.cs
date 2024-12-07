@@ -33,11 +33,11 @@ public class AppDbContext : DbContext
         foreach (var entry in entries)
         {
             var now = DateTime.UtcNow;
-            ((Entity)entry.Entity).UpdatedAt = now;
+            entry.Property(nameof(Entity.UpdatedAt)).CurrentValue = now;
 
             if (entry.State == EntityState.Added)
             {
-                ((Entity)entry.Entity).CreatedAt = now;
+                entry.Property(nameof(Entity.CreatedAt)).CurrentValue = now;
             }
         }
     }
