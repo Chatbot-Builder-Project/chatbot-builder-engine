@@ -2,11 +2,11 @@
 
 namespace ChatbotBuilderEngine.Domain.Core.Primitives;
 
-public abstract class AggregateRoot : Entity
+public abstract class AggregateRoot<TId> : Entity<TId> where TId : EntityId<TId>
 {
     private readonly List<IDomainEvent> _domainEvents = [];
 
-    protected AggregateRoot(Guid id, DateTime createdAt, DateTime updatedAt)
+    protected AggregateRoot(TId id, DateTime createdAt, DateTime updatedAt)
         : base(id, createdAt, updatedAt)
     {
     }

@@ -2,11 +2,10 @@
 using ChatbotBuilderEngine.Application.Core.Abstract.Specifications;
 using ChatbotBuilderEngine.Application.Core.Shared;
 using ChatbotBuilderEngine.Application.Core.Shared.Responses;
-using ChatbotBuilderEngine.Domain.Core.Primitives;
 
 namespace ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
 
-public interface IReadRepository<TEntity> where TEntity : Entity
+public interface IReadRepository<TEntity> where TEntity : class
 {
     /// <summary>
     /// Checks if any entity satisfies the given specification.

@@ -1,12 +1,12 @@
 ﻿namespace ChatbotBuilderEngine.Domain.Core.Primitives;
 
-public abstract class Entity : IEquatable<Entity>
+public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : EntityId<TId>
 {
-    public Guid Id { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public DateTime UpdatedAt { get; private set; }
+    public TId Id { get; }
+    public DateTime CreatedAt { get; }
+    public DateTime UpdatedAt { get; }
 
-    protected Entity(Guid id, DateTime createdAt, DateTime updatedAt)
+    protected Entity(TId id, DateTime createdAt, DateTime updatedAt)
     {
         Id = id;
         CreatedAt = createdAt;
@@ -20,7 +20,7 @@ public abstract class Entity : IEquatable<Entity>
     {
     }
 
-    public static bool operator ==(Entity? a, Entity? b)
+    public static bool operator ==(Entity<TId>? a, Entity<TId>? b)
     {
         if (a is null && b is null)
         {
@@ -35,17 +35,17 @@ public abstract class Entity : IEquatable<Entity>
         return a.Equals(b);
     }
 
-    public static bool operator !=(Entity a, Entity b) => !(a == b);
+    public static bool operator !=(Entity<TId> a, Entity<TId> b) => !(a == b);
 
-    /// <inheritdoc/>
-    public bool Equals(Entity? other)
+    public bool Equals(Entity<TId>? other)
     {
         if (other is null)
         {
             return false;
         }
 
-        return ReferenceEquals(this, other) || Id == other.Id;
+        return ReferenceEquals(this, other)
+               || EqualityComparer<TId>.Default.Equals(Id, other.Id);
     }
 
     /// <inheritdoc/>
@@ -66,17 +66,8 @@ public abstract class Entity : IEquatable<Entity>
             return false;
         }
 
-        if (obj is not Entity other)
-        {
-            return false;
-        }
-
-        if (Id == Guid.Empty || other.Id == Guid.Empty)
-        {
-            return false;
-        }
-
-        return Id == other.Id;
+        return obj is Entity<TId> other
+               && EqualityComparer<TId>.Default.Equals(Id, other.Id);
     }
 
     /// <inheritdoc/>

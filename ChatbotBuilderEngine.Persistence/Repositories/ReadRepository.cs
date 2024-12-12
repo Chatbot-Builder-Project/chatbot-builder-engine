@@ -9,8 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatbotBuilderEngine.Persistence.Repositories;
 
-public class ReadRepository<TEntity> : IReadRepository<TEntity>
-    where TEntity : Entity
+public class ReadRepository<TEntity> : IReadRepository<TEntity> where TEntity : class
 {
     private readonly AppDbContext _context;
 
