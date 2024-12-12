@@ -27,21 +27,13 @@ public class Error : ValueObject
         ErrorType.None,
         string.Empty,
         string.Empty);
-
-    public static readonly Error NullValue = new(
-        ErrorType.BadRequest,
-        "Error.NullValue",
-        "The specified result value is null.");
 }
 
 public enum ErrorType
 {
-    None = 0,
-    BadRequest = 1,
-    NotFound = 2,
-    NotAuthorized = 3,
-    Conflict = 4,
-    InternalServerError = 5,
-    Forbidden = 6,
-    TooManyRequests = 7
+    None,
+    DomainValidation,
+    BusinessRuleViolation,
+    ResourceConflict,
+    DependencyError
 }
