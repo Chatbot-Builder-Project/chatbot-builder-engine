@@ -4,7 +4,6 @@ using ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
 using ChatbotBuilderEngine.Application.Core.Abstract.Specifications;
 using ChatbotBuilderEngine.Application.Core.Shared;
 using ChatbotBuilderEngine.Application.Core.Shared.Responses;
-using ChatbotBuilderEngine.Domain.Core.Primitives;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatbotBuilderEngine.Persistence.Repositories;

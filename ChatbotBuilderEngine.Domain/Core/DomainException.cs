@@ -1,6 +1,6 @@
 ﻿using ChatbotBuilderEngine.Domain.Core.Primitives;
 
-namespace ChatbotBuilderEngine.Domain.Core.Exceptions;
+namespace ChatbotBuilderEngine.Domain.Core;
 
 public class DomainException : Exception
 {
