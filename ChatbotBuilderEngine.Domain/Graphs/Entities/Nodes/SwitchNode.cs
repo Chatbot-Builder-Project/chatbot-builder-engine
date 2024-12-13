@@ -103,4 +103,9 @@ public sealed class SwitchNode : Node,
             throw new DomainException(GraphsDomainErrors.SwitchNode.FlowLinkAlreadyBound);
         }
     }
+
+    public IEnumerable<EnumId> GetEnumIds()
+    {
+        yield return Enum.Id;
+    }
 }

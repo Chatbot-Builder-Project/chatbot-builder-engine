@@ -1,11 +1,11 @@
-﻿using Enum = ChatbotBuilderEngine.Domain.Graphs.Entities.Enum;
+﻿using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
 
 namespace ChatbotBuilderEngine.Domain.Graphs.Abstract.Behaviors;
 
 /// <summary>
-/// A node that uses an enumeration.
+/// A node that might use one or more enums.
 /// </summary>
 public interface IEnumNode
 {
-    Enum Enum { get; }
+    IEnumerable<EnumId> GetEnumIds();
 }
