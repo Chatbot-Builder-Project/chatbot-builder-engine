@@ -1,8 +1,10 @@
 ﻿using ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
+using ChatbotBuilderEngine.Domain.Core.Abstract;
 
 namespace ChatbotBuilderEngine.Persistence.Repositories;
 
-public class CudRepository<TEntity> : ICudRepository<TEntity> where TEntity : class
+public class CudRepository<TAggregateRoot> : ICudRepository<TAggregateRoot>
+    where TAggregateRoot : class, IAggregateRoot
 {
     private readonly AppDbContext _context;
 
@@ -11,18 +13,18 @@ public class CudRepository<TEntity> : ICudRepository<TEntity> where TEntity : cl
         _context = context;
     }
 
-    public void Add(TEntity entity)
+    public void Add(TAggregateRoot aggregate)
     {
-        _context.Set<TEntity>().Add(entity);
+        _context.Set<TAggregateRoot>().Add(aggregate);
     }
 
-    public void Update(TEntity entity)
+    public void Update(TAggregateRoot aggregate)
     {
-        _context.Set<TEntity>().Update(entity);
+        _context.Set<TAggregateRoot>().Update(aggregate);
     }
 
-    public void Delete(TEntity entity)
+    public void Delete(TAggregateRoot aggregate)
     {
-        _context.Set<TEntity>().Remove(entity);
+        _context.Set<TAggregateRoot>().Remove(aggregate);
     }
 }
