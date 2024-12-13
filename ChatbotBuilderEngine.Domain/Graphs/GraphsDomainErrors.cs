@@ -4,12 +4,22 @@ namespace ChatbotBuilderEngine.Domain.Graphs;
 
 public static class GraphsDomainErrors
 {
+    public static class Enum
+    {
+        public static readonly Error OptionAlreadyExists = new(
+            ErrorType.DomainValidation,
+            "Enum.OptionAlreadyExists",
+            "This option already exists in the enum");
+    }
+
     public static class Port
     {
         public static readonly Error NodeIdMismatch = new(
             ErrorType.DomainValidation,
             "InputPort.NodeIdMismatch",
             "The node ID of the input port does not match its node's ID");
+    }
+
     public static class InputPort
     {
         public static readonly Error HasNoData = new(
