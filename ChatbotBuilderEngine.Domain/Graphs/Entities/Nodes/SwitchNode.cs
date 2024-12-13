@@ -49,6 +49,11 @@ public sealed class SwitchNode : Node,
         Enum @enum,
         Dictionary<OptionData, FlowLinkId> bindings)
     {
+        if (@enum.Options.Any(enumOption => !bindings.ContainsKey(enumOption)))
+        {
+            throw new DomainException(GraphsDomainErrors.SwitchNode.OptionNotBound);
+        }
+
         if (bindings.Count != @enum.Options.Count)
         {
             throw new DomainException(GraphsDomainErrors.SwitchNode.InvalidBindingsCount);
