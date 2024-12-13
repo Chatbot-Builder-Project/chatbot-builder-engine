@@ -37,6 +37,29 @@ public static class GraphsDomainErrors
             "This input port is already subscribed to this output port");
     }
 
+    public static class PromptNode
+    {
+        public static readonly Error SuccessorNotSet = new(
+            ErrorType.DomainValidation,
+            "PromptNode.SuccessorNotSet",
+            "The successor of this node has not been set yet");
+
+        public static readonly Error DoesNotMatchPlaceholdersCount = new(
+            ErrorType.DomainValidation,
+            "PromptNode.DoesNotMatchPlaceholdersCount",
+            "The number of placeholders in the prompt does not match the given number of data");
+
+        public static readonly Error MissingPlaceholderKeys = new(
+            ErrorType.DomainValidation,
+            "PromptNode.MissingPlaceholderKeys",
+            "One or more placeholders in the prompt do not have corresponding keys in the provided data");
+
+        public static readonly Error UnusedKeysInDictionary = new(
+            ErrorType.DomainValidation,
+            "PromptNode.UnusedKeysInDictionary",
+            "One or more keys in the provided data are not used in the prompt");
+    }
+
     public static class SwitchNode
     {
         public static readonly Error InvalidBindingsCount = new(
