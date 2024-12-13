@@ -10,6 +10,11 @@ public static class GraphsDomainErrors
             ErrorType.DomainValidation,
             "Enum.OptionAlreadyExists",
             "This option already exists in the enum");
+
+        public static readonly Error InvalidMapping = new(
+            ErrorType.DomainValidation,
+            "Enum.InvalidMapping",
+            "The given mapping is not valid for this enum");
     }
 
     public static class Port

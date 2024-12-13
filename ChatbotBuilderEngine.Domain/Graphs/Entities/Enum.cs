@@ -51,4 +51,13 @@ public sealed class Enum : Entity<EnumId>
             throw new DomainException(GraphsDomainErrors.Enum.OptionAlreadyExists);
         }
     }
+
+    public void EnsureValidBindings<T>(Dictionary<OptionData, T> mapping)
+    {
+        if (mapping.Count != _options.Count
+            || _options.Any(option => !mapping.ContainsKey(option)))
+        {
+            throw new DomainException(GraphsDomainErrors.Enum.InvalidMapping);
+        }
+    }
 }
