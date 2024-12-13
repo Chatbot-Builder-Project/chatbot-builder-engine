@@ -2,7 +2,8 @@
 
 namespace ChatbotBuilderEngine.Domain.Core.Primitives;
 
-public abstract class AggregateRoot<TId> : Entity<TId> where TId : EntityId<TId>
+public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
+    where TId : EntityId<TId>
 {
     private readonly List<IDomainEvent> _domainEvents = [];
 
