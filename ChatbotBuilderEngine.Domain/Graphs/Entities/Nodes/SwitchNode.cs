@@ -2,9 +2,9 @@
 using ChatbotBuilderEngine.Domain.Graphs.Abstract;
 using ChatbotBuilderEngine.Domain.Graphs.Abstract.Behaviors;
 using ChatbotBuilderEngine.Domain.Graphs.Entities.Ports;
-using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta;
+using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 
 namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
 

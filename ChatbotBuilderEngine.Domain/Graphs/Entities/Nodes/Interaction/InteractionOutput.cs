@@ -1,5 +1,5 @@
 ﻿using ChatbotBuilderEngine.Domain.Core.Primitives;
-using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
+using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 
 namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction;
 

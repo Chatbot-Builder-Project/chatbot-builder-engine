@@ -1,4 +1,4 @@
-﻿namespace ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
+﻿namespace ChatbotBuilderEngine.Domain.ValueObjects.Data;
 
 public sealed class ImageData : Data
 {
