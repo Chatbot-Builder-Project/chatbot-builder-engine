@@ -32,14 +32,91 @@ public static class GraphsDomainErrors
             "InputPort.HasNoData",
             "Input port has not received any data yet");
 
+        public static readonly Error IsNotInputPort = new(
+            ErrorType.DomainValidation,
+            "InputPort.IsNotInputPort",
+            "The port type is not a valid input port");
     }
 
     public static class OutputPort
     {
+        public static readonly Error IsNotOutputPort = new(
+            ErrorType.DomainValidation,
+            "OutputPort.IsNotInputPort",
+            "The port type is not a valid output port");
+
         public static readonly Error InputPortAlreadySubscribed = new(
             ErrorType.DomainValidation,
             "OutputPort.InputPortAlreadySubscribed",
             "This input port is already subscribed to this output port");
+    }
+
+    public static class Graph
+    {
+        public static readonly Error EnumAlreadyExists = new(
+            ErrorType.DomainValidation,
+            "Graph.EnumAlreadyExists",
+            "This enum already exists in the graph");
+
+        public static readonly Error EnumDoesNotExist = new(
+            ErrorType.DomainValidation,
+            "Graph.EnumDoesNotExist",
+            "This enum does not exist in the graph");
+
+        public static readonly Error NodeAlreadyExists = new(
+            ErrorType.DomainValidation,
+            "Graph.NodeAlreadyExists",
+            "This node already exists in the graph");
+
+        public static readonly Error NodeDoesNotExist = new(
+            ErrorType.DomainValidation,
+            "Graph.NodeDoesNotExist",
+            "This node does not exist in the graph");
+
+        public static readonly Error StartNodeIsNotInteractionNode = new(
+            ErrorType.DomainValidation,
+            "Graph.StartNodeIsNotInteractionNode",
+            "The start node of the graph must be an interaction node");
+
+        public static readonly Error InputPortAlreadyExists = new(
+            ErrorType.DomainValidation,
+            "Graph.InputPortAlreadyExists",
+            "This input port already exists in the graph");
+
+        public static readonly Error InputPortDoesNotExist = new(
+            ErrorType.DomainValidation,
+            "Graph.InputPortDoesNotExist",
+            "This input port does not exist in the graph");
+
+        public static readonly Error OutputPortAlreadyExists = new(
+            ErrorType.DomainValidation,
+            "Graph.OutputPortAlreadyExists",
+            "This output port already exists in the graph");
+
+        public static readonly Error OutputPortDoesNotExist = new(
+            ErrorType.DomainValidation,
+            "Graph.OutputPortDoesNotExist",
+            "This output port does not exist in the graph");
+
+        public static readonly Error DataLinkAlreadyExists = new(
+            ErrorType.DomainValidation,
+            "Graph.DataLinkAlreadyExists",
+            "This data link already exists in the graph");
+
+        public static readonly Error DataLinkTypeMismatch = new(
+            ErrorType.DomainValidation,
+            "Graph.DataLinkTypeMismatch",
+            "Data types of the input and output ports of the data link do not match");
+
+        public static readonly Error FlowLinkAlreadyExists = new(
+            ErrorType.DomainValidation,
+            "Graph.FlowLinkAlreadyExists",
+            "This flow link already exists in the graph");
+
+        public static readonly Error FlowLinkTypeMismatch = new(
+            ErrorType.DomainValidation,
+            "Graph.FlowLinkTypeMismatch",
+            "The input or output nodes of the flow link are not valid flow nodes");
     }
 
     public static class PromptNode
