@@ -34,6 +34,38 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.UseTpcMappingStrategy();
                 });
 
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.DataLink", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("InputPortId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OutputPortId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DataLink");
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.FlowLink", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("InputNodeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OutputNodeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowLink");
+                });
+
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.InputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.ImageData>", b =>
                 {
                     b.Property<Guid>("Id")
@@ -191,6 +223,102 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasBaseType("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node");
 
                     b.ToTable("StaticNode<TextData>");
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.DataLink", b =>
+                {
+                    b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
+                        {
+                            b1.Property<Guid>("DataLinkId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Identifier")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("DataLinkId");
+
+                            b1.ToTable("DataLink");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DataLinkId");
+                        });
+
+                    b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.VisualMeta", "Visual", b1 =>
+                        {
+                            b1.Property<Guid>("DataLinkId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<float>("X")
+                                .HasColumnType("real");
+
+                            b1.Property<float>("Y")
+                                .HasColumnType("real");
+
+                            b1.HasKey("DataLinkId");
+
+                            b1.ToTable("DataLink");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DataLinkId");
+                        });
+
+                    b.Navigation("Info")
+                        .IsRequired();
+
+                    b.Navigation("Visual")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.FlowLink", b =>
+                {
+                    b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
+                        {
+                            b1.Property<Guid>("FlowLinkId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Identifier")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("FlowLinkId");
+
+                            b1.ToTable("FlowLink");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FlowLinkId");
+                        });
+
+                    b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.VisualMeta", "Visual", b1 =>
+                        {
+                            b1.Property<Guid>("FlowLinkId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<float>("X")
+                                .HasColumnType("real");
+
+                            b1.Property<float>("Y")
+                                .HasColumnType("real");
+
+                            b1.HasKey("FlowLinkId");
+
+                            b1.ToTable("FlowLink");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FlowLinkId");
+                        });
+
+                    b.Navigation("Info")
+                        .IsRequired();
+
+                    b.Navigation("Visual")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.InputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.ImageData>", b =>
