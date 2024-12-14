@@ -11,7 +11,7 @@ namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Prompt;
 public sealed class PromptNode : Node,
     IInputNode, IActiveNode, IOutputNode, ISingleFlowNode
 {
-    private readonly IReadOnlyList<InputPort<TextData>> _inputPorts = [];
+    private readonly IReadOnlySet<InputPort<TextData>> _inputPorts = null!;
     private string _injectedTemplate = string.Empty;
     private IFlowNode? _successor;
 
@@ -26,7 +26,7 @@ public sealed class PromptNode : Node,
         VisualMeta visual,
         PromptTemplate template,
         OutputPort<TextData> outputPort,
-        IReadOnlyList<InputPort<TextData>> inputPorts)
+        IReadOnlySet<InputPort<TextData>> inputPorts)
         : base(id, createdAt, updatedAt, info, visual)
     {
         Template = template;
@@ -61,7 +61,16 @@ public sealed class PromptNode : Node,
             inputPort.EnsureNodeIdIs(id);
         }
 
-        return new PromptNode(id, createdAt, updatedAt, info, visual, template, outputPort, inputPorts);
+        var inputPortsSet = new HashSet<InputPort<TextData>>();
+        foreach (var inputPort in inputPorts)
+        {
+            if (!inputPortsSet.Add(inputPort))
+            {
+                throw new DomainException(GraphsDomainErrors.PromptNode.DuplicateInputPorts);
+            }
+        }
+
+        return new PromptNode(id, createdAt, updatedAt, info, visual, template, outputPort, inputPortsSet);
     }
 
     public IEnumerable<InputPortId> GetInputPortIds()

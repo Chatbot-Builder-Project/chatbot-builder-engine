@@ -126,10 +126,10 @@ public static class GraphsDomainErrors
             "PromptNode.SuccessorNotSet",
             "The successor of the node has not been set yet");
 
-        public static readonly Error DoesNotMatchPlaceholdersCount = new(
+        public static readonly Error DuplicateInputPorts = new(
             ErrorType.DomainValidation,
-            "PromptNode.DoesNotMatchPlaceholdersCount",
-            "The number of placeholders in the prompt does not match the given number of data");
+            "PromptNode.DuplicateInputPorts",
+            "The input ports of the prompt node must be unique");
 
         public static readonly Error MissingPlaceholderKeys = new(
             ErrorType.DomainValidation,
@@ -144,11 +144,6 @@ public static class GraphsDomainErrors
 
     public static class SwitchNode
     {
-        public static readonly Error InvalidBindingsCount = new(
-            ErrorType.DomainValidation,
-            "SwitchNode.InvalidBindingsCount",
-            "The number of bindings does not match the number of options in the enum");
-
         public static readonly Error FlowLinkAlreadyBound = new(
             ErrorType.DomainValidation,
             "SwitchNode.FlowLinkAlreadyBound",
