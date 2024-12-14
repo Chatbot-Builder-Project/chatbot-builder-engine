@@ -6,11 +6,16 @@ namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Prompt;
 
 public sealed partial class PromptTemplate : ValueObject
 {
-    public string Text { get; }
+    public string Text { get; } = null!;
 
     private PromptTemplate(string text)
     {
         Text = text;
+    }
+
+    /// <inheritdoc/>
+    private PromptTemplate()
+    {
     }
 
     public static PromptTemplate Create(string text)

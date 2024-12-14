@@ -16,6 +16,11 @@ public sealed class VisualMeta : ValueObject
         Y = y;
     }
 
+    /// <inheritdoc/>
+    private VisualMeta()
+    {
+    }
+
     public static VisualMeta Create(float x, float y) => new(x, y);
 
     protected override IEnumerable<object> GetAtomicValues()

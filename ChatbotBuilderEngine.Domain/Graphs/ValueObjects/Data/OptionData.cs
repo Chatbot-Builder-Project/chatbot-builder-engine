@@ -4,13 +4,18 @@ namespace ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
 
 public sealed class OptionData : Data
 {
-    public EnumId EnumId { get; }
-    public string Value { get; }
+    public EnumId EnumId { get; } = null!;
+    public string Value { get; } = null!;
 
     private OptionData(EnumId enumId, string value)
     {
         EnumId = enumId;
         Value = value;
+    }
+
+    /// <inheritdoc/>
+    private OptionData()
+    {
     }
 
     public static OptionData Create(EnumId enumId, string value) => new(enumId, value);

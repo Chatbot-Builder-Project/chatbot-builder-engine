@@ -20,6 +20,11 @@ public sealed class InteractionOutput : ValueObject
         OptionExpected = optionExpected;
     }
 
+    /// <inheritdoc/>
+    private InteractionOutput()
+    {
+    }
+
     public static InteractionOutput Create(TextData? textOutput, bool textExpected, bool optionExpected)
     {
         return new InteractionOutput(textOutput, textExpected, optionExpected);

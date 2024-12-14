@@ -11,6 +11,8 @@ public sealed class OutputPort<TData> : Port<OutputPortId>
 {
     private readonly HashSet<InputPort<TData>> _inputPorts = [];
 
+    public IReadOnlySet<InputPort<TData>> InputPorts => _inputPorts;
+
     private OutputPort(
         OutputPortId id,
         DateTime createdAt,

@@ -17,6 +17,11 @@ public sealed class InteractionInput : ValueObject
         Option = option;
     }
 
+    /// <inheritdoc/>
+    private InteractionInput()
+    {
+    }
+
     public static InteractionInput Create(TextData? text, OptionData? option) => new(text, option);
 
     protected override IEnumerable<object> GetAtomicValues()

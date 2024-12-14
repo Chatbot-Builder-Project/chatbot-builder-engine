@@ -23,7 +23,7 @@ namespace ChatbotBuilderEngine.Domain.Graphs;
 /// <remarks>
 /// Corresponds (approximately) to WorkflowComponents in upper layers.
 /// </remarks>
-public abstract class Graph<TId> : Entity<TId> where TId : EntityId<TId>
+public abstract class Graph : Entity<GraphId>
 {
     private readonly Dictionary<EnumId, Enum> _enums = [];
     private readonly Dictionary<InputPortId, Port<InputPortId>> _inputPorts = [];
@@ -41,7 +41,7 @@ public abstract class Graph<TId> : Entity<TId> where TId : EntityId<TId>
     public IReadOnlyDictionary<DataLinkId, DataLink> DataLinks => _dataLinks;
 
     protected Graph(
-        TId id,
+        GraphId id,
         DateTime createdAt,
         DateTime updatedAt)
         : base(id, createdAt, updatedAt)

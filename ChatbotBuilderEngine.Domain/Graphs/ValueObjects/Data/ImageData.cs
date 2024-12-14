@@ -2,11 +2,16 @@
 
 public sealed class ImageData : Data
 {
-    public string Url { get; }
+    public string Url { get; } = null!;
 
     private ImageData(string url)
     {
         Url = url;
+    }
+
+    /// <inheritdoc/>
+    private ImageData()
+    {
     }
 
     public static ImageData Create(string url) => new(url);

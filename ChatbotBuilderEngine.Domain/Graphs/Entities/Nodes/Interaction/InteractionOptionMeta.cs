@@ -14,6 +14,11 @@ public sealed class InteractionOptionMeta : ValueObject
         Description = description;
     }
 
+    /// <inheritdoc/>
+    private InteractionOptionMeta()
+    {
+    }
+
     public static InteractionOptionMeta Create(string description) => new(description);
 
     protected override IEnumerable<object> GetAtomicValues()

@@ -8,12 +8,17 @@ namespace ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta;
 public sealed class InfoMeta : ValueObject
 {
     public int Identifier { get; }
-    public string Name { get; }
+    public string Name { get; } = null!;
 
     private InfoMeta(int identifier, string name)
     {
         Identifier = identifier;
         Name = name;
+    }
+
+    /// <inheritdoc/>
+    private InfoMeta()
+    {
     }
 
     public static InfoMeta Create(int identifier, string name) => new(identifier, name);
