@@ -47,7 +47,7 @@ public static class GraphsDomainErrors
         public static readonly Error SuccessorNotSet = new(
             ErrorType.DomainValidation,
             "PromptNode.SuccessorNotSet",
-            "The successor of this node has not been set yet");
+            "The successor of the node has not been set yet");
 
         public static readonly Error DoesNotMatchPlaceholdersCount = new(
             ErrorType.DomainValidation,
@@ -91,5 +91,64 @@ public static class GraphsDomainErrors
             ErrorType.DomainValidation,
             "SwitchNode.OptionNotBound",
             "The selected option is not bound to any flow link");
+    }
+
+    public static class InteractionNode
+    {
+        public static readonly Error InputPortsIsMissing = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.InputPortsIsMissing",
+            "At least one input port is required for the interaction node");
+
+        public static readonly Error OutputPortsIsMissing = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.OutputPortsIsMissing",
+            "At least one output port is required for the interaction node");
+
+        public static readonly Error SuccessorNotSet = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.SuccessorNotSet",
+            "The successor of the node has not been set yet");
+
+
+        public static readonly Error OutputEnumIsMissing = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.OutputEnumIsMissing",
+            "The option enum is missing for the interaction node");
+
+        public static readonly Error OutputEnumIsUnnecessary = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.OutputEnumIsUnnecessary",
+            "The option enum is unnecessary for the interaction node");
+
+        public static readonly Error OptionDataMetasIsUnnecessary = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.OptionDataMetasIsUnnecessary",
+            "The option data metas are provided without an option enum");
+
+        public static readonly Error OptionDataMetasIsMissing = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.OptionDataMetasIsMissing",
+            "The option data metas are missing for the interaction node");
+
+        public static readonly Error InputTextIsMissing = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.InputTextIsMissing",
+            "The given input is missing text input");
+
+        public static readonly Error InputTextIsUnnecessary = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.InputTextIsUnnecessary",
+            "The given input is unnecessary text input");
+
+        public static readonly Error InputOptionIsMissing = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.InputOptionIsMissing",
+            "The given input is missing option input");
+
+        public static readonly Error InputOptionIsUnnecessary = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.InputOptionIsUnnecessary",
+            "The given input is unnecessary option input");
     }
 }
