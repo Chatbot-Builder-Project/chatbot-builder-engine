@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChatbotBuilderEngine.Persistence.Configurations.Extensions;
 
-public static class ConversionExtensions
+internal static class ConversionExtensions
 {
     public static void ApplyEntityIdConversion<TId>(
         this PropertyBuilder<TId> propertyBuilder)

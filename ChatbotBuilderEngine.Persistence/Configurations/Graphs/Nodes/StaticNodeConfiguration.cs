@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChatbotBuilderEngine.Persistence.Configurations.Graphs.Nodes;
 
-internal class TextStaticNodeConfiguration : IEntityTypeConfiguration<StaticNode<TextData>>
+internal sealed class TextStaticNodeConfiguration : IEntityTypeConfiguration<StaticNode<TextData>>
 {
     public void Configure(EntityTypeBuilder<StaticNode<TextData>> builder)
     {
@@ -15,7 +15,7 @@ internal class TextStaticNodeConfiguration : IEntityTypeConfiguration<StaticNode
     }
 }
 
-internal class OptionStaticNodeConfiguration : IEntityTypeConfiguration<StaticNode<OptionData>>
+internal sealed class OptionStaticNodeConfiguration : IEntityTypeConfiguration<StaticNode<OptionData>>
 {
     public void Configure(EntityTypeBuilder<StaticNode<OptionData>> builder)
     {
@@ -23,7 +23,7 @@ internal class OptionStaticNodeConfiguration : IEntityTypeConfiguration<StaticNo
     }
 }
 
-internal class ImageStaticNodeConfiguration : IEntityTypeConfiguration<StaticNode<ImageData>>
+internal sealed class ImageStaticNodeConfiguration : IEntityTypeConfiguration<StaticNode<ImageData>>
 {
     public void Configure(EntityTypeBuilder<StaticNode<ImageData>> builder)
     {
