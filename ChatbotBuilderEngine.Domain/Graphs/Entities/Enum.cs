@@ -9,8 +9,9 @@ namespace ChatbotBuilderEngine.Domain.Graphs.Entities;
 public sealed class Enum : Entity<EnumId>
 {
     private readonly HashSet<OptionData> _options = [];
-    public IReadOnlyCollection<OptionData> Options => _options.ToList();
+
     public InfoMeta Info { get; } = null!;
+    public IReadOnlySet<OptionData> Options => _options;
 
     private Enum(
         EnumId id,

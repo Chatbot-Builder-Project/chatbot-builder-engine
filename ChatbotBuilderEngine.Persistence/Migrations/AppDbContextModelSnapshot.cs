@@ -34,6 +34,16 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.UseTpcMappingStrategy();
                 });
 
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Enum", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Enum");
+                });
+
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.DataLink", b =>
                 {
                     b.Property<Guid>("Id")
@@ -223,6 +233,53 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasBaseType("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node");
 
                     b.ToTable("StaticNode<TextData>");
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Enum", b =>
+                {
+                    b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
+                        {
+                            b1.Property<Guid>("EnumId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Identifier")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("EnumId");
+
+                            b1.ToTable("Enum");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EnumId");
+                        });
+
+                    b.OwnsMany("ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData", "Options", b1 =>
+                        {
+                            b1.Property<Guid>("EnumId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.HasKey("EnumId", "Id");
+
+                            b1.ToTable("Enum_Options");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EnumId");
+                        });
+
+                    b.Navigation("Info")
+                        .IsRequired();
+
+                    b.Navigation("Options");
                 });
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.DataLink", b =>
