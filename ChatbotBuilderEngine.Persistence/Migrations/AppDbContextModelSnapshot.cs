@@ -101,7 +101,8 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NodeId");
+                    b.HasIndex("NodeId")
+                        .IsUnique();
 
                     b.ToTable("InputPort<OptionData>");
                 });
@@ -233,6 +234,22 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasBaseType("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node");
 
                     b.ToTable("StaticNode<TextData>");
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.SwitchNode", b =>
+                {
+                    b.HasBaseType("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node");
+
+                    b.Property<string>("Bindings")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(MAX)");
+
+                    b.Property<Guid>("EnumId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("EnumId");
+
+                    b.ToTable("SwitchNode");
                 });
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Enum", b =>
@@ -456,6 +473,12 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
                         .WithMany()
                         .HasForeignKey("NodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.SwitchNode", null)
+                        .WithOne("InputPort")
+                        .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.InputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData>", "NodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1029,6 +1052,62 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.SwitchNode", b =>
+                {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Enum", "Enum")
+                        .WithMany()
+                        .HasForeignKey("EnumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
+                        {
+                            b1.Property<Guid>("SwitchNodeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Identifier")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("SwitchNodeId");
+
+                            b1.ToTable("SwitchNode");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SwitchNodeId");
+                        });
+
+                    b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.VisualMeta", "Visual", b1 =>
+                        {
+                            b1.Property<Guid>("SwitchNodeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<float>("X")
+                                .HasColumnType("real");
+
+                            b1.Property<float>("Y")
+                                .HasColumnType("real");
+
+                            b1.HasKey("SwitchNodeId");
+
+                            b1.ToTable("SwitchNode");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SwitchNodeId");
+                        });
+
+                    b.Navigation("Enum");
+
+                    b.Navigation("Info")
+                        .IsRequired();
+
+                    b.Navigation("Visual")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.StaticNode<ChatbotBuilderEngine.Domain.ValueObjects.Data.ImageData>", b =>
                 {
                     b.Navigation("OutputPort")
@@ -1044,6 +1123,12 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.StaticNode<ChatbotBuilderEngine.Domain.ValueObjects.Data.TextData>", b =>
                 {
                     b.Navigation("OutputPort")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.SwitchNode", b =>
+                {
+                    b.Navigation("InputPort")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
