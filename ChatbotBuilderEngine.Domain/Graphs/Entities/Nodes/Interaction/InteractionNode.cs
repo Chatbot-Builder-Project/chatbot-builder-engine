@@ -11,14 +11,14 @@ namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction;
 public sealed class InteractionNode : Node,
     IInputNode, IEnumNode, IOutputNode
 {
-    private InteractionInput? _input;
-
     public InputPort<TextData>? TextInputPort { get; }
     public OutputPort<TextData>? TextOutputPort { get; }
 
     public Enum? OutputEnum { get; }
     public OutputPort<OptionData>? OptionOutputPort { get; }
     public Dictionary<OptionData, InteractionOptionMeta>? OutputOptionMetas { get; }
+
+    public InteractionInput? InteractionInput { get; private set; }
 
     private InteractionNode(
         NodeId id,
@@ -41,9 +41,8 @@ public sealed class InteractionNode : Node,
     }
 
     /// <inheritdoc/>
-    private InteractionNode(Enum? outputEnum)
+    private InteractionNode()
     {
-        OutputEnum = outputEnum;
     }
 
     public static InteractionNode Create(
@@ -141,7 +140,7 @@ public sealed class InteractionNode : Node,
             throw new DomainException(GraphsDomainErrors.InteractionNode.InputOptionIsUnnecessary);
         }
 
-        _input = input;
+        InteractionInput = input;
     }
 
     public IEnumerable<InputPortId> GetInputPortIds()
@@ -167,8 +166,14 @@ public sealed class InteractionNode : Node,
 
     public void PublishOutputs()
     {
-        TextOutputPort?.Publish(_input!.Text);
-        OptionOutputPort?.Publish(_input!.Option);
+        if (InteractionInput is null)
+        {
+            throw new DomainException(GraphsDomainErrors.InteractionNode.InteractionInputHasNotBeenSet);
+        }
+
+        // if XOutputPort is not null, then InteractionInput.X will never be null
+        TextOutputPort?.Publish(InteractionInput.Text!);
+        OptionOutputPort?.Publish(InteractionInput.Option!);
     }
 
     public IEnumerable<EnumId> GetEnumIds()

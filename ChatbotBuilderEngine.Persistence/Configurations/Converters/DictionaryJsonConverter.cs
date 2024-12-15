@@ -18,3 +18,18 @@ public class DictionaryJsonConverter<TKey, TValue> : ValueConverter<Dictionary<T
     {
     }
 }
+
+public class NullableDictionaryJsonConverter<TKey, TValue> : ValueConverter<Dictionary<TKey, TValue>?, string>
+    where TKey : notnull
+
+{
+    public NullableDictionaryJsonConverter() : base(
+        dict => dict == null
+            ? null!
+            : JsonSerializer.Serialize(dict, new JsonSerializerOptions { WriteIndented = false }),
+        json => string.IsNullOrEmpty(json)
+            ? null
+            : JsonSerializer.Deserialize<Dictionary<TKey, TValue>>(json, new JsonSerializerOptions()))
+    {
+    }
+}

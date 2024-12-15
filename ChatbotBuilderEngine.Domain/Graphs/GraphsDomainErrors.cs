@@ -162,6 +162,11 @@ public static class GraphsDomainErrors
 
     public static class InteractionNode
     {
+        public static readonly Error InteractionInputHasNotBeenSet = new(
+            ErrorType.DomainValidation,
+            "InteractionNode.InteractionInputHasNotBeenSet",
+            "The interaction input has not been set for the interaction node");
+
         public static readonly Error InputPortsIsMissing = new(
             ErrorType.DomainValidation,
             "InteractionNode.InputPortsIsMissing",
