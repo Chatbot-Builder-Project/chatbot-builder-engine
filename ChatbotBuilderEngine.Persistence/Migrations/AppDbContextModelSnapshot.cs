@@ -170,6 +170,56 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.ToTable("Graph");
                 });
 
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Users.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Workflows.Workflow", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("GraphId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GraphId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Workflow");
+                });
+
             modelBuilder.Entity("ImageOutputPortInputPort", b =>
                 {
                     b.Property<Guid>("OutputPortId")
@@ -593,6 +643,21 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
                         .WithOne()
                         .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Graph", "StartNodeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Workflows.Workflow", b =>
+                {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Graph", null)
+                        .WithMany()
+                        .HasForeignKey("GraphId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ChatbotBuilderEngine.Domain.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
