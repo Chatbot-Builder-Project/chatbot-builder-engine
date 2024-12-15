@@ -9,9 +9,8 @@ using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction;
 
 public sealed class InteractionNode : Node,
-    IInputNode, IEnumNode, IOutputNode, ISingleFlowNode
+    IInputNode, IEnumNode, IOutputNode
 {
-    private IFlowNode? _successor;
     private InteractionInput? _input;
 
     public InputPort<TextData>? TextInputPort { get; }
@@ -170,17 +169,6 @@ public sealed class InteractionNode : Node,
     {
         TextOutputPort?.Publish(_input!.Text);
         OptionOutputPort?.Publish(_input!.Option);
-    }
-
-    public IFlowNode GetSuccessor()
-    {
-        return _successor ??
-               throw new DomainException(GraphsDomainErrors.InteractionNode.SuccessorNotSet);
-    }
-
-    public void SetSuccessor(IFlowNode successor)
-    {
-        _successor = successor;
     }
 
     public IEnumerable<EnumId> GetEnumIds()

@@ -113,19 +113,14 @@ public static class GraphsDomainErrors
             "Graph.FlowLinkAlreadyExists",
             "This flow link already exists in the graph");
 
-        public static readonly Error FlowLinkTypeMismatch = new(
+        public static readonly Error FlowLinkCannotBeUsedForSetupNode = new(
             ErrorType.DomainValidation,
-            "Graph.FlowLinkTypeMismatch",
-            "The input or output nodes of the flow link are not valid flow nodes");
+            "Graph.FlowLinkCannotBeUsedForSetupNode",
+            "A flow link cannot be used for a setup node");
     }
 
     public static class PromptNode
     {
-        public static readonly Error SuccessorNotSet = new(
-            ErrorType.DomainValidation,
-            "PromptNode.SuccessorNotSet",
-            "The successor of the node has not been set yet");
-
         public static readonly Error DuplicateInputPorts = new(
             ErrorType.DomainValidation,
             "PromptNode.DuplicateInputPorts",
@@ -144,16 +139,6 @@ public static class GraphsDomainErrors
 
     public static class SwitchNode
     {
-        public static readonly Error FlowLinkAlreadyBound = new(
-            ErrorType.DomainValidation,
-            "SwitchNode.FlowLinkAlreadyBound",
-            "This flow link is already bound to a successor node");
-
-        public static readonly Error FlowLinkNotBound = new(
-            ErrorType.DomainValidation,
-            "SwitchNode.FlowLinkNotBound",
-            "The selected flow link is not bound to any successor node");
-
         public static readonly Error HasNotBeenActivated = new(
             ErrorType.DomainValidation,
             "SwitchNode.HasNotBeenActivated",
@@ -176,12 +161,6 @@ public static class GraphsDomainErrors
             ErrorType.DomainValidation,
             "InteractionNode.OutputPortsIsMissing",
             "At least one output port is required for the interaction node");
-
-        public static readonly Error SuccessorNotSet = new(
-            ErrorType.DomainValidation,
-            "InteractionNode.SuccessorNotSet",
-            "The successor of the node has not been set yet");
-
 
         public static readonly Error OutputEnumIsMissing = new(
             ErrorType.DomainValidation,

@@ -9,14 +9,13 @@ using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
 
 public sealed class SwitchNode : Node,
-    IInputNode, IEnumNode, IActiveNode, IMultiFlowNode
+    IInputNode, IEnumNode, IActionNode, IMultiFlowNode
 {
+    private OptionData? _selectedOption;
+
     public InputPort<OptionData> InputPort { get; } = null!;
     public Enum Enum { get; } = null!;
     public Dictionary<OptionData, FlowLinkId> Bindings { get; } = null!;
-
-    private OptionData? _selectedOption;
-    private readonly Dictionary<FlowLinkId, IFlowNode> _successors = [];
 
     private SwitchNode(
         NodeId id,
@@ -60,14 +59,18 @@ public sealed class SwitchNode : Node,
         yield return InputPort.Id;
     }
 
-
-    public Task ActivateAsync()
+    public Task RunAsync()
     {
         _selectedOption = InputPort.GetData();
         return Task.CompletedTask;
     }
 
-    public IFlowNode GetSuccessor()
+    public IEnumerable<EnumId> GetEnumIds()
+    {
+        yield return Enum.Id;
+    }
+
+    public FlowLinkId GetFlowLinkId(OptionData option)
     {
         if (_selectedOption is null)
         {
@@ -79,24 +82,6 @@ public sealed class SwitchNode : Node,
             throw new DomainException(GraphsDomainErrors.SwitchNode.OptionNotBound);
         }
 
-        if (!_successors.TryGetValue(flowLinkId, out var successor))
-        {
-            throw new DomainException(GraphsDomainErrors.SwitchNode.FlowLinkNotBound);
-        }
-
-        return successor;
-    }
-
-    public void Bind(FlowLinkId flowLinkId, IFlowNode node)
-    {
-        if (!_successors.TryAdd(flowLinkId, node))
-        {
-            throw new DomainException(GraphsDomainErrors.SwitchNode.FlowLinkAlreadyBound);
-        }
-    }
-
-    public IEnumerable<EnumId> GetEnumIds()
-    {
-        yield return Enum.Id;
+        return flowLinkId;
     }
 }

@@ -201,39 +201,24 @@ public abstract class Graph : Entity<GraphId>
 
     private void AddFlowLink(FlowLink link)
     {
-        if (!_nodes.TryGetValue(link.InputNodeId, out var inputNode))
+        if (!_nodes.TryGetValue(link.InputNodeId, out var node))
         {
             throw new DomainException(GraphsDomainErrors.Graph.NodeDoesNotExist);
         }
 
-        if (!_nodes.TryGetValue(link.OutputNodeId, out var outputNode))
+        if (!_nodes.TryGetValue(link.OutputNodeId, out _))
         {
             throw new DomainException(GraphsDomainErrors.Graph.NodeDoesNotExist);
         }
 
-        if (inputNode is not IFlowNode flowInputNode ||
-            outputNode is not IFlowNode flowOutputNode)
+        if (node is ISetupNode)
         {
-            throw new DomainException(GraphsDomainErrors.Graph.FlowLinkTypeMismatch);
+            throw new DomainException(GraphsDomainErrors.Graph.FlowLinkCannotBeUsedForSetupNode);
         }
 
         if (!_flowLinks.TryAdd(link.Id, link))
         {
             throw new DomainException(GraphsDomainErrors.Graph.FlowLinkAlreadyExists);
-        }
-
-        switch (flowInputNode)
-        {
-            case ISingleFlowNode singleFlowNode:
-                singleFlowNode.SetSuccessor(flowOutputNode);
-                break;
-
-            case IMultiFlowNode optionFlowNode:
-                optionFlowNode.Bind(link.Id, flowOutputNode);
-                break;
-
-            default:
-                throw new DomainException(GraphsDomainErrors.Graph.FlowLinkTypeMismatch);
         }
     }
 }

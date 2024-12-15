@@ -1,11 +1,12 @@
 ﻿using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
+using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 
 namespace ChatbotBuilderEngine.Domain.Graphs.Abstract.Behaviors;
 
 /// <summary>
-/// A flow node that has multiple successors.
+/// A flow node that determines the flow link to follow based on the option selected.
 /// </summary>
-public interface IMultiFlowNode : IFlowNode
+public interface IMultiFlowNode
 {
-    void Bind(FlowLinkId flowLinkId, IFlowNode node);
+    FlowLinkId GetFlowLinkId(OptionData option);
 }

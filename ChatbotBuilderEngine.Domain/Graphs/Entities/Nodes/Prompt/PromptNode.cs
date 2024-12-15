@@ -9,11 +9,10 @@ using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Prompt;
 
 public sealed class PromptNode : Node,
-    IInputNode, IActiveNode, IOutputNode, ISingleFlowNode
+    IInputNode, IActionNode, IOutputNode
 {
     private readonly IReadOnlySet<InputPort<TextData>> _inputPorts = null!;
     private string _injectedTemplate = string.Empty;
-    private IFlowNode? _successor;
 
     public PromptTemplate Template { get; } = null!;
     public OutputPort<TextData> OutputPort { get; } = null!;
@@ -78,7 +77,7 @@ public sealed class PromptNode : Node,
         return _inputPorts.Select(ip => ip.Id);
     }
 
-    public Task ActivateAsync()
+    public Task RunAsync()
     {
         var values = _inputPorts.ToDictionary(
             ip => ip.Info.Identifier.ToString(),
@@ -96,16 +95,5 @@ public sealed class PromptNode : Node,
     public void PublishOutputs()
     {
         OutputPort.Publish(TextData.Create(_injectedTemplate));
-    }
-
-    public IFlowNode GetSuccessor()
-    {
-        return _successor ??
-               throw new DomainException(GraphsDomainErrors.PromptNode.SuccessorNotSet);
-    }
-
-    public void SetSuccessor(IFlowNode successor)
-    {
-        _successor = successor;
     }
 }

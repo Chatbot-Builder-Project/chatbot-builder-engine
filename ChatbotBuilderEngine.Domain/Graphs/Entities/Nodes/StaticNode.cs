@@ -7,7 +7,8 @@ using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 
 namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
 
-public sealed class StaticNode<TOutputData> : Node, IOutputNode
+public sealed class StaticNode<TOutputData> : Node,
+    ISetupNode, IOutputNode
     where TOutputData : Data
 {
     public TOutputData Data { get; } = null!;
