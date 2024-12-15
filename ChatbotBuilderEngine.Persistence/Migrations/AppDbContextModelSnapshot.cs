@@ -1080,6 +1080,26 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                                 .HasForeignKey("SwitchNodeId");
                         });
 
+                    b.OwnsOne("ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData", "SelectedOption", b1 =>
+                        {
+                            b1.Property<Guid>("SwitchNodeId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid>("EnumId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("SwitchNodeId");
+
+                            b1.ToTable("SwitchNode");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SwitchNodeId");
+                        });
+
                     b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.VisualMeta", "Visual", b1 =>
                         {
                             b1.Property<Guid>("SwitchNodeId")
@@ -1103,6 +1123,8 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
 
                     b.Navigation("Info")
                         .IsRequired();
+
+                    b.Navigation("SelectedOption");
 
                     b.Navigation("Visual")
                         .IsRequired();

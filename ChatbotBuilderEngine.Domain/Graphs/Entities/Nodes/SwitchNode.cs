@@ -11,11 +11,10 @@ namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
 public sealed class SwitchNode : Node,
     IInputNode, IEnumNode, ISwitchNode
 {
-    private OptionData? _selectedOption;
-
     public InputPort<OptionData> InputPort { get; } = null!;
     public Enum Enum { get; } = null!;
     public Dictionary<OptionData, FlowLinkId> Bindings { get; } = null!;
+    public OptionData? SelectedOption { get; private set; }
 
     private SwitchNode(
         NodeId id,
@@ -56,7 +55,7 @@ public sealed class SwitchNode : Node,
 
     public override Task RunAsync()
     {
-        _selectedOption = InputPort.GetData();
+        SelectedOption = InputPort.GetData();
         return Task.CompletedTask;
     }
 
@@ -77,12 +76,12 @@ public sealed class SwitchNode : Node,
 
     public FlowLinkId GetFlowLinkId(OptionData option)
     {
-        if (_selectedOption is null)
+        if (SelectedOption is null)
         {
             throw new DomainException(GraphsDomainErrors.SwitchNode.HasNotBeenActivated);
         }
 
-        if (!Bindings.TryGetValue(_selectedOption, out var flowLinkId))
+        if (!Bindings.TryGetValue(SelectedOption, out var flowLinkId))
         {
             throw new DomainException(GraphsDomainErrors.SwitchNode.OptionNotBound);
         }

@@ -3,6 +3,7 @@ using ChatbotBuilderEngine.Domain.Graphs.Entities.Ports;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
 using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 using ChatbotBuilderEngine.Persistence.Configurations.Converters;
+using ChatbotBuilderEngine.Persistence.Configurations.Extensions;
 using ChatbotBuilderEngine.Persistence.Configurations.Graphs.Nodes.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -28,5 +29,7 @@ internal sealed class SwitchNodeConfiguration : IEntityTypeConfiguration<SwitchN
         builder.Property(n => n.Bindings)
             .HasConversion(new DictionaryJsonConverter<OptionData, FlowLinkId>())
             .HasColumnType("NVARCHAR(MAX)");
+
+        builder.OwnsOne(n => n.SelectedOption, n => n.ConfigureOptionData());
     }
 }
