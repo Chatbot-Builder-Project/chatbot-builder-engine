@@ -16,14 +16,9 @@ internal static class OutputPortConfigurationExtension
     {
         builder.ConfigurePortBase<OutputPort<TData>, OutputPortId>();
 
-        builder.HasKey(o => o.Id);
-        builder.Property(o => o.Id).ApplyEntityIdConversion();
-
-        builder.Property(o => o.NodeId).ApplyEntityIdConversion();
-
         builder.HasMany(o => o.InputPorts)
             .WithMany()
-            .UsingEntity<Dictionary<string, object>>(
+            .UsingEntity<OutputInputPortJoin>(
                 joinTableName,
                 j => j.HasOne<InputPort<TData>>()
                     .WithMany()
@@ -33,6 +28,17 @@ internal static class OutputPortConfigurationExtension
                     .WithMany()
                     .HasForeignKey("OutputPortId")
                     .OnDelete(DeleteBehavior.Cascade),
-                j => j.HasKey("OutputPortId", "InputPortId"));
+                j =>
+                {
+                    j.HasKey("OutputPortId", "InputPortId");
+                    j.Property(jj => jj.InputPortId).ApplyEntityIdConversion();
+                    j.Property(jj => jj.OutputPortId).ApplyEntityIdConversion();
+                });
     }
+}
+
+internal class OutputInputPortJoin
+{
+    public required OutputPortId OutputPortId { get; set; }
+    public required InputPortId InputPortId { get; set; }
 }
