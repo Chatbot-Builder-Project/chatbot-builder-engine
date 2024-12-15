@@ -11,13 +11,11 @@ public sealed class FlowLink : Link<FlowLinkId>
 
     private FlowLink(
         FlowLinkId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         NodeId inputNodeId,
         NodeId outputNodeId)
-        : base(id, createdAt, updatedAt, info, visual)
+        : base(id, info, visual)
     {
         InputNodeId = inputNodeId;
         OutputNodeId = outputNodeId;
@@ -30,13 +28,11 @@ public sealed class FlowLink : Link<FlowLinkId>
 
     public static FlowLink Create(
         FlowLinkId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         NodeId inputNodeId,
         NodeId outputNodeId)
     {
-        return new FlowLink(id, createdAt, updatedAt, info, visual, inputNodeId, outputNodeId);
+        return new FlowLink(id, info, visual, inputNodeId, outputNodeId);
     }
 }

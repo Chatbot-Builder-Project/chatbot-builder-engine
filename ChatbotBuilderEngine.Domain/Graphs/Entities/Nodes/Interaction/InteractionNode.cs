@@ -22,8 +22,6 @@ public sealed class InteractionNode : Node,
 
     private InteractionNode(
         NodeId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         InputPort<TextData>? textInputPort,
@@ -31,7 +29,7 @@ public sealed class InteractionNode : Node,
         Enum? outputEnum,
         OutputPort<OptionData>? optionOutputPort,
         Dictionary<OptionData, InteractionOptionMeta>? outputOptionMetas)
-        : base(id, createdAt, updatedAt, info, visual)
+        : base(id, info, visual)
     {
         TextInputPort = textInputPort;
         TextOutputPort = textOutputPort;
@@ -47,8 +45,6 @@ public sealed class InteractionNode : Node,
 
     public static InteractionNode Create(
         NodeId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         InputPort<TextData>? textInputPort,
@@ -99,8 +95,6 @@ public sealed class InteractionNode : Node,
 
         return new InteractionNode(
             id,
-            createdAt,
-            updatedAt,
             info,
             visual,
             textInputPort,

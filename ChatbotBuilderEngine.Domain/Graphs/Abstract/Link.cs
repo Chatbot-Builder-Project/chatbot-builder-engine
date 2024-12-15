@@ -11,11 +11,9 @@ public abstract class Link<TId> : Entity<TId>
 
     protected Link(
         TId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual)
-        : base(id, createdAt, updatedAt)
+        : base(id)
     {
         Info = info;
         Visual = visual;

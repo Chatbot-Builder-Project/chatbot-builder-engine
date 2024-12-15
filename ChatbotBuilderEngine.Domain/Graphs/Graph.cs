@@ -62,11 +62,7 @@ public sealed class Graph : AggregateRoot<GraphId>
     public IReadOnlyDictionary<FlowLinkId, FlowLink> FlowLinksMap => _flowLinksMapLazy.Value;
     public IReadOnlyDictionary<DataLinkId, DataLink> DataLinksMap => _dataLinksMapLazy.Value;
 
-    private Graph(
-        GraphId id,
-        DateTime createdAt,
-        DateTime updatedAt)
-        : base(id, createdAt, updatedAt)
+    private Graph(GraphId id) : base(id)
     {
         _enumsMapLazy = new(() => Enums.ToDictionary(@enum => @enum.Id, @enum => @enum));
         _inputPortsMapLazy = new(() => InputPorts.ToDictionary(port => port.Id, port => port));
@@ -77,14 +73,12 @@ public sealed class Graph : AggregateRoot<GraphId>
     }
 
     /// <inheritdoc/>
-    private Graph() : this(default!, default!, default!)
+    private Graph() : this(default!)
     {
     }
 
     public static Graph Create(
         GraphId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         IReadOnlyList<Enum> enums,
         IReadOnlyList<Port<InputPortId>> inputPorts,
         IReadOnlyList<Port<OutputPortId>> outputPorts,
@@ -93,7 +87,7 @@ public sealed class Graph : AggregateRoot<GraphId>
         IReadOnlyList<DataLink> dataLinks,
         IReadOnlyList<FlowLink> flowLinks)
     {
-        var graph = new Graph(id, createdAt, updatedAt);
+        var graph = new Graph(id);
 
         foreach (var @enum in enums)
         {

@@ -2,16 +2,9 @@
 
 public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : EntityId<TId>
 {
-    public TId Id { get; }
-    public DateTime CreatedAt { get; }
-    public DateTime UpdatedAt { get; }
+    public TId Id { get; } = default!;
 
-    protected Entity(TId id, DateTime createdAt, DateTime updatedAt)
-    {
-        Id = id;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
-    }
+    protected Entity(TId id) => Id = id;
 
     /// <remarks>
     /// Required by EF Core.

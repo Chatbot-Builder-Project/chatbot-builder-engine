@@ -1,4 +1,4 @@
-﻿using ChatbotBuilderEngine.Domain.Core.Primitives;
+﻿using ChatbotBuilderEngine.Domain.Core.Abstract;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatbotBuilderEngine.Persistence;
@@ -30,17 +30,17 @@ public class AppDbContext : DbContext
     private void SetTimestamps()
     {
         var entries = ChangeTracker.Entries()
-            .Where(e => e.Entity.GetType().IsAssignableTo(typeof(Entity<>))
+            .Where(e => e.Entity.GetType().IsAssignableTo(typeof(IAggregateRoot))
                         && e.State is EntityState.Added or EntityState.Modified);
 
         foreach (var entry in entries)
         {
             var now = DateTime.UtcNow;
-            entry.Property("UpdatedAt").CurrentValue = now;
+            entry.Property(nameof(IAggregateRoot.UpdatedAt)).CurrentValue = now;
 
             if (entry.State == EntityState.Added)
             {
-                entry.Property("CreatedAt").CurrentValue = now;
+                entry.Property(nameof(IAggregateRoot.CreatedAt)).CurrentValue = now;
             }
         }
     }

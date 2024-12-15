@@ -18,14 +18,12 @@ public sealed class PromptNode : Node,
 
     private PromptNode(
         NodeId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         PromptTemplate template,
         OutputPort<TextData> outputPort,
         IReadOnlySet<InputPort<TextData>> inputPorts)
-        : base(id, createdAt, updatedAt, info, visual)
+        : base(id, info, visual)
     {
         Template = template;
         OutputPort = outputPort;
@@ -39,8 +37,6 @@ public sealed class PromptNode : Node,
 
     public static PromptNode Create(
         NodeId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         PromptTemplate template,
@@ -68,7 +64,7 @@ public sealed class PromptNode : Node,
             }
         }
 
-        return new PromptNode(id, createdAt, updatedAt, info, visual, template, outputPort, inputPortsSet);
+        return new PromptNode(id, info, visual, template, outputPort, inputPortsSet);
     }
 
     public override Task RunAsync()

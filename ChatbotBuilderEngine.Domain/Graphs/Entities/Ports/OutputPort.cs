@@ -15,12 +15,10 @@ public sealed class OutputPort<TData> : Port<OutputPortId>
 
     private OutputPort(
         OutputPortId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         NodeId nodeId)
-        : base(id, createdAt, updatedAt, info, visual, nodeId)
+        : base(id, info, visual, nodeId)
     {
     }
 
@@ -31,13 +29,11 @@ public sealed class OutputPort<TData> : Port<OutputPortId>
 
     public static OutputPort<TData> Create(
         OutputPortId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         NodeId nodeId)
     {
-        return new OutputPort<TData>(id, createdAt, updatedAt, info, visual, nodeId);
+        return new OutputPort<TData>(id, info, visual, nodeId);
     }
 
     public void Subscribe(InputPort<TData> inputPort)

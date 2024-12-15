@@ -14,12 +14,10 @@ public abstract class Port<TId> : Entity<TId>
 
     protected Port(
         TId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         NodeId nodeId)
-        : base(id, createdAt, updatedAt)
+        : base(id)
     {
         Info = info;
         Visual = visual;

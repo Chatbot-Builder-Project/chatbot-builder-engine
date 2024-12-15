@@ -11,13 +11,11 @@ public sealed class DataLink : Link<DataLinkId>
 
     private DataLink(
         DataLinkId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         InputPortId inputPortId,
         OutputPortId outputPortId)
-        : base(id, createdAt, updatedAt, info, visual)
+        : base(id, info, visual)
     {
         InputPortId = inputPortId;
         OutputPortId = outputPortId;
@@ -30,13 +28,11 @@ public sealed class DataLink : Link<DataLinkId>
 
     public static DataLink Create(
         DataLinkId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         InputPortId inputPortId,
         OutputPortId outputPortId)
     {
-        return new DataLink(id, createdAt, updatedAt, info, visual, inputPortId, outputPortId);
+        return new DataLink(id, info, visual, inputPortId, outputPortId);
     }
 }

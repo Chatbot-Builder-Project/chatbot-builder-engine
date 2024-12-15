@@ -18,14 +18,12 @@ public sealed class SwitchNode : Node,
 
     private SwitchNode(
         NodeId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         InputPort<OptionData> inputPort,
         Enum @enum,
         Dictionary<OptionData, FlowLinkId> bindings)
-        : base(id, createdAt, updatedAt, info, visual)
+        : base(id, info, visual)
     {
         InputPort = inputPort;
         Enum = @enum;
@@ -39,8 +37,6 @@ public sealed class SwitchNode : Node,
 
     public static SwitchNode Create(
         NodeId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         InputPort<OptionData> inputPort,
@@ -50,7 +46,7 @@ public sealed class SwitchNode : Node,
         @enum.EnsureValidBindings(bindings);
         inputPort.EnsureNodeIdIs(id);
 
-        return new SwitchNode(id, createdAt, updatedAt, info, visual, inputPort, @enum, bindings);
+        return new SwitchNode(id, info, visual, inputPort, @enum, bindings);
     }
 
     public override Task RunAsync()

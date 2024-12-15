@@ -16,12 +16,10 @@ public sealed class InputPort<TData> : Port<InputPortId>
 
     private InputPort(
         InputPortId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         NodeId nodeId)
-        : base(id, createdAt, updatedAt, info, visual, nodeId)
+        : base(id, info, visual, nodeId)
     {
     }
 
@@ -32,13 +30,11 @@ public sealed class InputPort<TData> : Port<InputPortId>
 
     public static InputPort<TData> Create(
         InputPortId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         NodeId nodeId)
     {
-        return new InputPort<TData>(id, createdAt, updatedAt, info, visual, nodeId);
+        return new InputPort<TData>(id, info, visual, nodeId);
     }
 
     public void SetData(TData data)

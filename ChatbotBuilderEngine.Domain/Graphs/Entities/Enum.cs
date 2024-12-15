@@ -15,10 +15,8 @@ public sealed class Enum : Entity<EnumId>
 
     private Enum(
         EnumId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info)
-        : base(id, createdAt, updatedAt)
+        : base(id)
     {
         Info = info;
     }
@@ -30,12 +28,10 @@ public sealed class Enum : Entity<EnumId>
 
     public static Enum Create(
         EnumId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         IReadOnlyList<OptionData> options)
     {
-        var @enum = new Enum(id, createdAt, updatedAt, info);
+        var @enum = new Enum(id, info);
 
         foreach (var option in options)
         {

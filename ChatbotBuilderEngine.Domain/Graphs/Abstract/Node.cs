@@ -11,11 +11,9 @@ public abstract class Node : Entity<NodeId>
 
     protected Node(
         NodeId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual)
-        : base(id, createdAt, updatedAt)
+        : base(id)
     {
         Info = info;
         Visual = visual;

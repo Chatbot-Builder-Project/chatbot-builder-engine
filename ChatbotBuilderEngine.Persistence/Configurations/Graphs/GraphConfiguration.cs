@@ -10,6 +10,8 @@ internal sealed class GraphConfiguration : IEntityTypeConfiguration<Graph>
 {
     public void Configure(EntityTypeBuilder<Graph> builder)
     {
+        builder.ConfigureAggregateRoot();
+
         builder.HasKey(g => g.Id);
         builder.Property(g => g.Id).ApplyEntityIdConversion();
 

@@ -16,13 +16,11 @@ public sealed class StaticNode<TOutputData> : Node,
 
     private StaticNode(
         NodeId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         TOutputData data,
         OutputPort<TOutputData> outputPort)
-        : base(id, createdAt, updatedAt, info, visual)
+        : base(id, info, visual)
     {
         Data = data;
         OutputPort = outputPort;
@@ -35,16 +33,13 @@ public sealed class StaticNode<TOutputData> : Node,
 
     public static StaticNode<TOutputData> Create(
         NodeId id,
-        DateTime createdAt,
-        DateTime updatedAt,
         InfoMeta info,
         VisualMeta visual,
         TOutputData data,
         OutputPort<TOutputData> outputPort)
     {
         outputPort.EnsureNodeIdIs(id);
-
-        return new StaticNode<TOutputData>(id, createdAt, updatedAt, info, visual, data, outputPort);
+        return new StaticNode<TOutputData>(id, info, visual, data, outputPort);
     }
 
     public IEnumerable<OutputPortId> GetOutputPortIds()

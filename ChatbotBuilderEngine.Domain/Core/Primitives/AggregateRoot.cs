@@ -5,19 +5,19 @@ namespace ChatbotBuilderEngine.Domain.Core.Primitives;
 public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
     where TId : EntityId<TId>
 {
-    private readonly List<IDomainEvent> _domainEvents = [];
-
-    protected AggregateRoot(TId id, DateTime createdAt, DateTime updatedAt)
-        : base(id, createdAt, updatedAt)
+    protected AggregateRoot(TId id) : base(id)
     {
     }
 
-    /// <remarks>
-    /// Required by EF Core.
-    /// </remarks>
+    /// <inheritdoc/>
     protected AggregateRoot()
     {
     }
+
+    public DateTime CreatedAt { get; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; } = DateTime.UtcNow;
+
+    private readonly List<IDomainEvent> _domainEvents = [];
 
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
