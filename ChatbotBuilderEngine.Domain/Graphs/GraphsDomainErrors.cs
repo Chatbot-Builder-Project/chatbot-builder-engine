@@ -122,6 +122,26 @@ public static class GraphsDomainErrors
             ErrorType.DomainValidation,
             "Graph.SwitchNodeDoesNotContainFlowLink",
             "The switch node does not contain the given flow link");
+
+        public static readonly Error ExtraInputPorts = new(
+            ErrorType.DomainValidation,
+            "Graph.ExtraInputPorts",
+            "The graph has extra input ports that are not connected to any node");
+
+        public static readonly Error ExtraOutputPorts = new(
+            ErrorType.DomainValidation,
+            "Graph.ExtraOutputPorts",
+            "The graph has extra output ports that are not connected to any node");
+
+        public static readonly Error UnconnectedInputPorts = new(
+            ErrorType.DomainValidation,
+            "Graph.UnconnectedInputPorts",
+            "The graph has input ports that are not connected with a data link");
+
+        public static readonly Error SwitchNodeContainsExtraFlowLinkIds = new(
+            ErrorType.DomainValidation,
+            "Graph.SwitchNodeContainsExtraFlowLinkIds",
+            "The switch node contains extra flow link IDs that are not connected to any flow link");
     }
 
     public static class PromptNode

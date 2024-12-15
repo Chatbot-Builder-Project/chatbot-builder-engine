@@ -11,13 +11,21 @@ using Enum = ChatbotBuilderEngine.Domain.Graphs.Entities.Enum;
 namespace ChatbotBuilderEngine.Domain.Graphs;
 
 /// <summary>
-/// To create the graph, the following steps will be executed in order (internally):
+/// To create the graph, the following steps and validations will be executed in order:
 /// <list type="number">
 /// <item>Add all enums</item>
 /// <item>Add all input and output ports</item>
-/// <item>Add all nodes</item>
-/// <item>Set the start node id</item>
-/// <item>Add all data and flow links</item>
+/// <item>Add all nodes, ensure that all their ports and enums exist</item>
+/// <item>Ensure that no extra ports exist, extra enums are allowed</item>
+/// <item>Set the start node id, ensure that it's an interaction node and that it exists</item>
+/// <item>Add all data links, ensure that all their ports exist</item>
+/// <item>Ensure that no InputPort is without at least one DataLink.
+/// (In the future it should also ensure that at no graph path can an input port be uninitialized,
+/// possible by enforcing a default value for each InputPort)</item>
+/// <item>Add all flow links, ensure that all their nodes exist and that they are not setup nodes.
+/// And if the input node is a SwitchNode ensure that its ID is already bound to the node.
+/// Extra nodes are allowed.</item>
+/// <item>Ensure that no SwitchNode contains extra flow link IDs</item>
 /// </list>
 /// </summary>
 /// <remarks>
@@ -107,12 +115,16 @@ public sealed class Graph : AggregateRoot<GraphId>
             graph.AddNode(node);
         }
 
+        graph.EnsureNoExtraPorts();
+
         graph.SetStartNodeId(startNodeId);
 
         foreach (var dataLink in dataLinks)
         {
             graph.AddDataLink(dataLink);
         }
+
+        graph.EnsureNoUnconnectedInputPorts();
 
         // Precomputation for O(1) FlowLinkId lookup
         var switchNodeFlowLinks = nodes
@@ -125,6 +137,8 @@ public sealed class Graph : AggregateRoot<GraphId>
         {
             graph.AddFlowLink(flowLink, switchNodeFlowLinks);
         }
+
+        graph.EnsureNoUnconnectedFlowLinkInSwitchNodes(switchNodeFlowLinks);
 
         return graph;
     }
@@ -189,6 +203,29 @@ public sealed class Graph : AggregateRoot<GraphId>
         }
     }
 
+    private void EnsureNoExtraPorts()
+    {
+        var nodeInputPortIds = Nodes
+            .OfType<IInputNode>()
+            .SelectMany(node => node.GetInputPortIds())
+            .ToHashSet();
+
+        var nodeOutputPortIds = Nodes
+            .OfType<IOutputNode>()
+            .SelectMany(node => node.GetOutputPortIds())
+            .ToHashSet();
+
+        if (InputPorts.Any(port => !nodeInputPortIds.Contains(port.Id)))
+        {
+            throw new DomainException(GraphsDomainErrors.Graph.ExtraInputPorts);
+        }
+
+        if (OutputPorts.Any(port => !nodeOutputPortIds.Contains(port.Id)))
+        {
+            throw new DomainException(GraphsDomainErrors.Graph.ExtraOutputPorts);
+        }
+    }
+
     /// <remarks>
     /// This method assumes all nodes have been added to the graph.
     /// </remarks>
@@ -242,6 +279,18 @@ public sealed class Graph : AggregateRoot<GraphId>
         subscribeMethod.Invoke(outputPort, [inputPort]);
     }
 
+    private void EnsureNoUnconnectedInputPorts()
+    {
+        var connectedInputPortIds = DataLinks
+            .Select(link => link.InputPortId)
+            .ToHashSet();
+
+        if (InputPorts.Any(port => !connectedInputPortIds.Contains(port.Id)))
+        {
+            throw new DomainException(GraphsDomainErrors.Graph.UnconnectedInputPorts);
+        }
+    }
+
     /// <remarks>
     /// This method assumes all nodes have been added to the graph.
     /// </remarks>
@@ -271,6 +320,17 @@ public sealed class Graph : AggregateRoot<GraphId>
         if (!_flowLinks.Add(link))
         {
             throw new DomainException(GraphsDomainErrors.Graph.FlowLinkAlreadyExists);
+        }
+    }
+
+    private void EnsureNoUnconnectedFlowLinkInSwitchNodes(
+        IReadOnlyDictionary<Node, HashSet<FlowLinkId>> switchNodeFlowLinks)
+    {
+        var flowLinkIds = FlowLinks.Select(link => link.Id).ToHashSet();
+
+        if (switchNodeFlowLinks.Values.Any(set => set.Any(id => !flowLinkIds.Contains(id))))
+        {
+            throw new DomainException(GraphsDomainErrors.Graph.SwitchNodeContainsExtraFlowLinkIds);
         }
     }
 }
