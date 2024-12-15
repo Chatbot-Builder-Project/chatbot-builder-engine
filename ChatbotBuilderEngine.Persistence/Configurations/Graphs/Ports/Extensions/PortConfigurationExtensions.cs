@@ -1,6 +1,7 @@
 ﻿using ChatbotBuilderEngine.Domain.Core.Primitives;
 using ChatbotBuilderEngine.Domain.Graphs.Abstract;
 using ChatbotBuilderEngine.Persistence.Configurations.Graphs.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChatbotBuilderEngine.Persistence.Configurations.Graphs.Ports.Extensions;
@@ -13,9 +14,11 @@ internal static class PortConfigurationExtensions
     {
         builder.OwnsOne(p => p.Info, i => i.ConfigureInfoMeta());
         builder.OwnsOne(p => p.Visual, v => v.ConfigureVisualMeta());
+
         builder.HasOne<Node>()
             .WithMany()
             .HasForeignKey(p => p.NodeId)
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

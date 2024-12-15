@@ -2,6 +2,7 @@
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
 using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 using ChatbotBuilderEngine.Persistence.Configurations.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChatbotBuilderEngine.Persistence.Configurations.Graphs.Ports.Extensions;
@@ -17,6 +18,7 @@ internal static class OutputPortConfigurationExtension
 
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id).ApplyEntityIdConversion();
+
         builder.Property(o => o.NodeId).ApplyEntityIdConversion();
 
         builder.HasMany(o => o.InputPorts)
@@ -25,10 +27,12 @@ internal static class OutputPortConfigurationExtension
                 joinTableName,
                 j => j.HasOne<InputPort<TData>>()
                     .WithMany()
-                    .HasForeignKey("InputPortId"),
+                    .HasForeignKey("InputPortId")
+                    .OnDelete(DeleteBehavior.Cascade),
                 j => j.HasOne<OutputPort<TData>>()
                     .WithMany()
-                    .HasForeignKey("OutputPortId"),
+                    .HasForeignKey("OutputPortId")
+                    .OnDelete(DeleteBehavior.Cascade),
                 j => j.HasKey("OutputPortId", "InputPortId"));
     }
 }

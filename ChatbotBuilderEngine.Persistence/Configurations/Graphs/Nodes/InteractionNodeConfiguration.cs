@@ -18,20 +18,21 @@ internal sealed class InteractionNodeConfiguration : IEntityTypeConfiguration<In
         builder.HasOne(n => n.TextInputPort)
             .WithOne()
             .HasForeignKey<InputPort<TextData>>(p => p.NodeId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(n => n.TextOutputPort)
             .WithOne()
             .HasForeignKey<OutputPort<TextData>>(p => p.NodeId)
-            .OnDelete(DeleteBehavior.NoAction); // Issue
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(n => n.OutputEnum)
-            .WithMany();
+            .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(n => n.OptionOutputPort)
             .WithOne()
             .HasForeignKey<OutputPort<OptionData>>(p => p.NodeId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(n => n.OutputOptionMetas)
             .HasConversion(new NullableDictionaryJsonConverter<OptionData, InteractionOptionMeta>())

@@ -20,11 +20,12 @@ internal sealed class SwitchNodeConfiguration : IEntityTypeConfiguration<SwitchN
             .WithOne()
             .HasForeignKey<InputPort<OptionData>>(i => i.NodeId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(n => n.Enum)
             .WithMany()
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(n => n.Bindings)
             .HasConversion(new DictionaryJsonConverter<OptionData, FlowLinkId>())

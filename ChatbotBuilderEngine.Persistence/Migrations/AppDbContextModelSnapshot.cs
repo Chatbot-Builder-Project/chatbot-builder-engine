@@ -493,7 +493,7 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
                         .WithMany()
                         .HasForeignKey("NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsOne("ChatbotBuilderEngine.Domain.ValueObjects.Data.ImageData", "Data", b1 =>
@@ -566,13 +566,13 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
                         .WithMany()
                         .HasForeignKey("NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.SwitchNode", null)
                         .WithOne("InputPort")
                         .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.InputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData>", "NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsOne("ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData", "Data", b1 =>
@@ -648,19 +648,19 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
                         .WithMany()
                         .HasForeignKey("NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction.InteractionNode", null)
                         .WithOne("TextInputPort")
                         .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.InputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.TextData>", "NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Prompt.PromptNode", null)
                         .WithMany("InputPorts")
                         .HasForeignKey("NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsOne("ChatbotBuilderEngine.Domain.ValueObjects.Data.TextData", "Data", b1 =>
@@ -733,13 +733,13 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
                         .WithMany()
                         .HasForeignKey("NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.StaticNode<ChatbotBuilderEngine.Domain.ValueObjects.Data.ImageData>", null)
                         .WithOne("OutputPort")
                         .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.OutputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.ImageData>", "NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
@@ -793,19 +793,19 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
                         .WithMany()
                         .HasForeignKey("NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction.InteractionNode", null)
                         .WithOne("OptionOutputPort")
                         .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.OutputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData>", "NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.StaticNode<ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData>", null)
                         .WithOne("OutputPort")
                         .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.OutputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData>", "NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
@@ -859,7 +859,7 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
                         .WithMany()
                         .HasForeignKey("NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction.InteractionNode", null)
@@ -877,7 +877,7 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.StaticNode<ChatbotBuilderEngine.Domain.ValueObjects.Data.TextData>", null)
                         .WithOne("OutputPort")
                         .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.OutputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.TextData>", "NodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
@@ -975,7 +975,8 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                 {
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Enum", "OutputEnum")
                         .WithMany()
-                        .HasForeignKey("OutputEnumId");
+                        .HasForeignKey("OutputEnumId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
                         {
@@ -1302,7 +1303,7 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Enum", "Enum")
                         .WithMany()
                         .HasForeignKey("EnumId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>

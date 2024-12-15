@@ -17,6 +17,7 @@ internal static class InputPortConfigurationExtension
 
         builder.HasKey(i => i.Id);
         builder.Property(i => i.Id).ApplyEntityIdConversion();
+
         builder.Property(i => i.NodeId).ApplyEntityIdConversion();
 
         builder.OwnsOne(i => i.Data, configureData);

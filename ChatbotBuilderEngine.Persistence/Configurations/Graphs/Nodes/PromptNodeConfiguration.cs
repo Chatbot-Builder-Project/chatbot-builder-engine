@@ -19,13 +19,13 @@ internal sealed class PromptNodeConfiguration : IEntityTypeConfiguration<PromptN
             .WithOne()
             .HasForeignKey<OutputPort<TextData>>(p => p.NodeId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.NoAction); // Issue
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(n => n.InputPorts)
             .WithOne()
             .HasForeignKey(p => p.NodeId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(n => n.InjectedTemplate);
     }

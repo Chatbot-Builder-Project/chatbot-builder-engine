@@ -16,9 +16,10 @@ internal static class StaticNodeConfigurationExtension
         builder.ConfigureNodeBase();
 
         builder.OwnsOne(n => n.Data, configureData);
+
         builder.HasOne(n => n.OutputPort)
             .WithOne()
             .HasForeignKey<OutputPort<TData>>(o => o.NodeId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
