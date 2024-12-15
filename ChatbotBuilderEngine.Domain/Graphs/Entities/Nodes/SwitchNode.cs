@@ -9,7 +9,7 @@ using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
 
 public sealed class SwitchNode : Node,
-    IInputNode, IEnumNode, IActionNode, IMultiFlowNode
+    IInputNode, IEnumNode, ISwitchNode
 {
     private OptionData? _selectedOption;
 
@@ -54,20 +54,25 @@ public sealed class SwitchNode : Node,
         return new SwitchNode(id, createdAt, updatedAt, info, visual, inputPort, @enum, bindings);
     }
 
-    public IEnumerable<InputPortId> GetInputPortIds()
-    {
-        yield return InputPort.Id;
-    }
-
-    public Task RunAsync()
+    public override Task RunAsync()
     {
         _selectedOption = InputPort.GetData();
         return Task.CompletedTask;
     }
 
+    public IEnumerable<InputPortId> GetInputPortIds()
+    {
+        yield return InputPort.Id;
+    }
+
     public IEnumerable<EnumId> GetEnumIds()
     {
         yield return Enum.Id;
+    }
+
+    public IEnumerable<FlowLinkId> GetFlowLinkIds()
+    {
+        return Bindings.Values;
     }
 
     public FlowLinkId GetFlowLinkId(OptionData option)

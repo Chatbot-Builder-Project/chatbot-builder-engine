@@ -89,9 +89,16 @@ public abstract class Graph : Entity<GraphId>
             AddDataLink(dataLink);
         }
 
+        // Precomputation for O(1) FlowLinkId lookup
+        var switchNodeFlowLinks = nodes
+            .OfType<ISwitchNode>()
+            .ToDictionary(
+                switchNode => (Node)switchNode,
+                switchNode => switchNode.GetFlowLinkIds().ToHashSet());
+
         foreach (var flowLink in flowLinks)
         {
-            AddFlowLink(flowLink);
+            AddFlowLink(flowLink, switchNodeFlowLinks);
         }
     }
 
@@ -199,21 +206,27 @@ public abstract class Graph : Entity<GraphId>
         subscribeMethod.Invoke(outputPort, [inputPort]);
     }
 
-    private void AddFlowLink(FlowLink link)
+    private void AddFlowLink(FlowLink link, IReadOnlyDictionary<Node, HashSet<FlowLinkId>> switchNodeFlowLinks)
     {
-        if (!_nodes.TryGetValue(link.InputNodeId, out var node))
+        if (!_nodes.TryGetValue(link.InputNodeId, out var inputNode))
         {
             throw new DomainException(GraphsDomainErrors.Graph.NodeDoesNotExist);
         }
 
-        if (!_nodes.TryGetValue(link.OutputNodeId, out _))
+        if (!_nodes.TryGetValue(link.OutputNodeId, out var outputNode))
         {
             throw new DomainException(GraphsDomainErrors.Graph.NodeDoesNotExist);
         }
 
-        if (node is ISetupNode)
+        if (inputNode is ISetupNode || outputNode is ISetupNode)
         {
             throw new DomainException(GraphsDomainErrors.Graph.FlowLinkCannotBeUsedForSetupNode);
+        }
+
+        if (inputNode is ISwitchNode &&
+            !switchNodeFlowLinks[inputNode].Contains(link.Id))
+        {
+            throw new DomainException(GraphsDomainErrors.Graph.SwitchNodeDoesNotContainFlowLink);
         }
 
         if (!_flowLinks.TryAdd(link.Id, link))

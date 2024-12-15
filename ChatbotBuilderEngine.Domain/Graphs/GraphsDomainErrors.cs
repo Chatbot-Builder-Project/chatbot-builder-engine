@@ -117,6 +117,11 @@ public static class GraphsDomainErrors
             ErrorType.DomainValidation,
             "Graph.FlowLinkCannotBeUsedForSetupNode",
             "A flow link cannot be used for a setup node");
+
+        public static readonly Error SwitchNodeDoesNotContainFlowLink = new(
+            ErrorType.DomainValidation,
+            "Graph.SwitchNodeDoesNotContainFlowLink",
+            "The switch node does not contain the given flow link");
     }
 
     public static class PromptNode

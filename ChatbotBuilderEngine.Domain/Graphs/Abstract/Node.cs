@@ -25,4 +25,12 @@ public abstract class Node : Entity<NodeId>
     protected Node()
     {
     }
+
+    /// <summary>
+    /// Any action that need to be executed before all other tasks should be implemented here.
+    /// </summary>
+    /// <remarks>
+    /// The graph will call this method before publishing outputs, or getting the successor node, etc.
+    /// </remarks>
+    public virtual Task RunAsync() => Task.CompletedTask;
 }

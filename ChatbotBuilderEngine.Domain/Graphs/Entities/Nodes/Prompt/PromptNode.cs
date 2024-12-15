@@ -9,7 +9,7 @@ using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Prompt;
 
 public sealed class PromptNode : Node,
-    IInputNode, IActionNode, IOutputNode
+    IInputNode, IOutputNode
 {
     private readonly IReadOnlySet<InputPort<TextData>> _inputPorts = null!;
     private string _injectedTemplate = string.Empty;
@@ -72,12 +72,7 @@ public sealed class PromptNode : Node,
         return new PromptNode(id, createdAt, updatedAt, info, visual, template, outputPort, inputPortsSet);
     }
 
-    public IEnumerable<InputPortId> GetInputPortIds()
-    {
-        return _inputPorts.Select(ip => ip.Id);
-    }
-
-    public Task RunAsync()
+    public override Task RunAsync()
     {
         var values = _inputPorts.ToDictionary(
             ip => ip.Info.Identifier.ToString(),
@@ -85,6 +80,11 @@ public sealed class PromptNode : Node,
 
         _injectedTemplate = Template.InjectValues(values);
         return Task.CompletedTask;
+    }
+
+    public IEnumerable<InputPortId> GetInputPortIds()
+    {
+        return _inputPorts.Select(ip => ip.Id);
     }
 
     public IEnumerable<OutputPortId> GetOutputPortIds()
