@@ -11,11 +11,10 @@ namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Prompt;
 public sealed class PromptNode : Node,
     IInputNode, IOutputNode
 {
-    private readonly IReadOnlySet<InputPort<TextData>> _inputPorts = null!;
-    private string _injectedTemplate = string.Empty;
-
     public PromptTemplate Template { get; } = null!;
     public OutputPort<TextData> OutputPort { get; } = null!;
+    public IReadOnlySet<InputPort<TextData>> InputPorts { get; } = null!;
+    public string? InjectedTemplate { get; private set; }
 
     private PromptNode(
         NodeId id,
@@ -30,7 +29,7 @@ public sealed class PromptNode : Node,
     {
         Template = template;
         OutputPort = outputPort;
-        _inputPorts = inputPorts;
+        InputPorts = inputPorts;
     }
 
     /// <inheritdoc/>
@@ -74,17 +73,17 @@ public sealed class PromptNode : Node,
 
     public override Task RunAsync()
     {
-        var values = _inputPorts.ToDictionary(
+        var values = InputPorts.ToDictionary(
             ip => ip.Info.Identifier.ToString(),
             ip => ip.GetData().Text);
 
-        _injectedTemplate = Template.InjectValues(values);
+        InjectedTemplate = Template.InjectValues(values);
         return Task.CompletedTask;
     }
 
     public IEnumerable<InputPortId> GetInputPortIds()
     {
-        return _inputPorts.Select(ip => ip.Id);
+        return InputPorts.Select(ip => ip.Id);
     }
 
     public IEnumerable<OutputPortId> GetOutputPortIds()
@@ -94,6 +93,11 @@ public sealed class PromptNode : Node,
 
     public void PublishOutputs()
     {
-        OutputPort.Publish(TextData.Create(_injectedTemplate));
+        if (InjectedTemplate is null)
+        {
+            throw new DomainException(GraphsDomainErrors.PromptNode.NodeHasNotBeenActivated);
+        }
+
+        OutputPort.Publish(TextData.Create(InjectedTemplate));
     }
 }

@@ -126,6 +126,11 @@ public static class GraphsDomainErrors
 
     public static class PromptNode
     {
+        public static readonly Error NodeHasNotBeenActivated = new(
+            ErrorType.DomainValidation,
+            "PromptNode.NodeHasNotBeenActivated",
+            "This prompt node has not been activated yet");
+
         public static readonly Error DuplicateInputPorts = new(
             ErrorType.DomainValidation,
             "PromptNode.DuplicateInputPorts",
