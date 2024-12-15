@@ -21,39 +21,62 @@ namespace ChatbotBuilderEngine.Domain.Graphs;
 /// </list>
 /// </summary>
 /// <remarks>
-/// Corresponds (approximately) to WorkflowComponents in upper layers.
+/// Corresponds to WorkflowComponents in upper layers.
 /// </remarks>
-public abstract class Graph : Entity<GraphId>
+public sealed class Graph : AggregateRoot<GraphId>
 {
-    private readonly Dictionary<EnumId, Enum> _enums = [];
-    private readonly Dictionary<InputPortId, Port<InputPortId>> _inputPorts = [];
-    private readonly Dictionary<OutputPortId, Port<OutputPortId>> _outputPorts = [];
-    private readonly Dictionary<NodeId, Node> _nodes = [];
-    private readonly Dictionary<FlowLinkId, FlowLink> _flowLinks = [];
-    private readonly Dictionary<DataLinkId, DataLink> _dataLinks = [];
+    private readonly HashSet<Enum> _enums = [];
+    private readonly HashSet<Port<InputPortId>> _inputPorts = [];
+    private readonly HashSet<Port<OutputPortId>> _outputPorts = [];
+    private readonly HashSet<Node> _nodes = [];
+    private readonly HashSet<FlowLink> _flowLinks = [];
+    private readonly HashSet<DataLink> _dataLinks = [];
 
-    public IReadOnlyDictionary<EnumId, Enum> Enums => _enums;
-    public IReadOnlyDictionary<InputPortId, Port<InputPortId>> InputPorts => _inputPorts;
-    public IReadOnlyDictionary<OutputPortId, Port<OutputPortId>> OutputPorts => _outputPorts;
-    public IReadOnlyDictionary<NodeId, Node> Nodes => _nodes;
     public NodeId StartNodeId { get; private set; } = null!;
-    public IReadOnlyDictionary<FlowLinkId, FlowLink> FlowLinks => _flowLinks;
-    public IReadOnlyDictionary<DataLinkId, DataLink> DataLinks => _dataLinks;
+    public IReadOnlySet<Enum> Enums => _enums;
+    public IReadOnlySet<Port<InputPortId>> InputPorts => _inputPorts;
+    public IReadOnlySet<Port<OutputPortId>> OutputPorts => _outputPorts;
+    public IReadOnlySet<Node> Nodes => _nodes;
+    public IReadOnlySet<FlowLink> FlowLinks => _flowLinks;
+    public IReadOnlySet<DataLink> DataLinks => _dataLinks;
 
-    protected Graph(
+    private readonly Lazy<Dictionary<EnumId, Enum>> _enumsMapLazy;
+    private readonly Lazy<Dictionary<InputPortId, Port<InputPortId>>> _inputPortsMapLazy;
+    private readonly Lazy<Dictionary<OutputPortId, Port<OutputPortId>>> _outputPortsMapLazy;
+    private readonly Lazy<Dictionary<NodeId, Node>> _nodesMapLazy;
+    private readonly Lazy<Dictionary<FlowLinkId, FlowLink>> _flowLinksMapLazy;
+    private readonly Lazy<Dictionary<DataLinkId, DataLink>> _dataLinksMapLazy;
+
+    public IReadOnlyDictionary<EnumId, Enum> EnumsMap => _enumsMapLazy.Value;
+    public IReadOnlyDictionary<InputPortId, Port<InputPortId>> InputPortsMap => _inputPortsMapLazy.Value;
+    public IReadOnlyDictionary<OutputPortId, Port<OutputPortId>> OutputPortsMap => _outputPortsMapLazy.Value;
+    public IReadOnlyDictionary<NodeId, Node> NodesMap => _nodesMapLazy.Value;
+    public IReadOnlyDictionary<FlowLinkId, FlowLink> FlowLinksMap => _flowLinksMapLazy.Value;
+    public IReadOnlyDictionary<DataLinkId, DataLink> DataLinksMap => _dataLinksMapLazy.Value;
+
+    private Graph(
         GraphId id,
         DateTime createdAt,
         DateTime updatedAt)
         : base(id, createdAt, updatedAt)
     {
+        _enumsMapLazy = new(() => Enums.ToDictionary(@enum => @enum.Id, @enum => @enum));
+        _inputPortsMapLazy = new(() => InputPorts.ToDictionary(port => port.Id, port => port));
+        _outputPortsMapLazy = new(() => OutputPorts.ToDictionary(port => port.Id, port => port));
+        _nodesMapLazy = new(() => Nodes.ToDictionary(node => node.Id, node => node));
+        _flowLinksMapLazy = new(() => FlowLinks.ToDictionary(link => link.Id, link => link));
+        _dataLinksMapLazy = new(() => DataLinks.ToDictionary(link => link.Id, link => link));
     }
 
     /// <inheritdoc/>
-    protected Graph()
+    private Graph() : this(default!, default!, default!)
     {
     }
 
-    protected void Initialize(
+    public static Graph Create(
+        GraphId id,
+        DateTime createdAt,
+        DateTime updatedAt,
         IReadOnlyList<Enum> enums,
         IReadOnlyList<Port<InputPortId>> inputPorts,
         IReadOnlyList<Port<OutputPortId>> outputPorts,
@@ -62,31 +85,33 @@ public abstract class Graph : Entity<GraphId>
         IReadOnlyList<DataLink> dataLinks,
         IReadOnlyList<FlowLink> flowLinks)
     {
+        var graph = new Graph(id, createdAt, updatedAt);
+
         foreach (var @enum in enums)
         {
-            AddEnum(@enum);
+            graph.AddEnum(@enum);
         }
 
         foreach (var inputPort in inputPorts)
         {
-            AddInputPort(inputPort);
+            graph.AddInputPort(inputPort);
         }
 
         foreach (var outputPort in outputPorts)
         {
-            AddOutputPort(outputPort);
+            graph.AddOutputPort(outputPort);
         }
 
         foreach (var node in nodes)
         {
-            AddNode(node);
+            graph.AddNode(node);
         }
 
-        SetStartNodeId(startNodeId);
+        graph.SetStartNodeId(startNodeId);
 
         foreach (var dataLink in dataLinks)
         {
-            AddDataLink(dataLink);
+            graph.AddDataLink(dataLink);
         }
 
         // Precomputation for O(1) FlowLinkId lookup
@@ -98,13 +123,15 @@ public abstract class Graph : Entity<GraphId>
 
         foreach (var flowLink in flowLinks)
         {
-            AddFlowLink(flowLink, switchNodeFlowLinks);
+            graph.AddFlowLink(flowLink, switchNodeFlowLinks);
         }
+
+        return graph;
     }
 
     private void AddEnum(Enum @enum)
     {
-        if (!_enums.TryAdd(@enum.Id, @enum))
+        if (!_enums.Add(@enum))
         {
             throw new DomainException(GraphsDomainErrors.Graph.EnumAlreadyExists);
         }
@@ -117,7 +144,7 @@ public abstract class Graph : Entity<GraphId>
             throw new DomainException(GraphsDomainErrors.InputPort.IsNotInputPort);
         }
 
-        if (!_inputPorts.TryAdd(port.Id, port))
+        if (!_inputPorts.Add(port))
         {
             throw new DomainException(GraphsDomainErrors.Graph.InputPortAlreadyExists);
         }
@@ -130,38 +157,44 @@ public abstract class Graph : Entity<GraphId>
             throw new DomainException(GraphsDomainErrors.OutputPort.IsNotOutputPort);
         }
 
-        if (!_outputPorts.TryAdd(port.Id, port))
+        if (!_outputPorts.Add(port))
         {
             throw new DomainException(GraphsDomainErrors.Graph.OutputPortAlreadyExists);
         }
     }
 
+    /// <remarks>
+    /// This method assumes all enums, input ports and output ports have been added to the graph.
+    /// </remarks>
     private void AddNode(Node node)
     {
         switch (node)
         {
             case IInputNode inputNode when
-                inputNode.GetInputPortIds().Any(inputPortId => !_inputPorts.ContainsKey(inputPortId)):
+                inputNode.GetInputPortIds().Any(inputPortId => !InputPortsMap.ContainsKey(inputPortId)):
                 throw new DomainException(GraphsDomainErrors.Graph.InputPortDoesNotExist);
 
             case IOutputNode outputNode when
-                outputNode.GetOutputPortIds().Any(outputPortId => !_outputPorts.ContainsKey(outputPortId)):
+                outputNode.GetOutputPortIds().Any(outputPortId => !OutputPortsMap.ContainsKey(outputPortId)):
                 throw new DomainException(GraphsDomainErrors.Graph.OutputPortDoesNotExist);
 
             case IEnumNode enumNode when
-                enumNode.GetEnumIds().Any(enumId => !_enums.ContainsKey(enumId)):
+                enumNode.GetEnumIds().Any(enumId => !EnumsMap.ContainsKey(enumId)):
                 throw new DomainException(GraphsDomainErrors.Graph.EnumDoesNotExist);
         }
 
-        if (!_nodes.TryAdd(node.Id, node))
+        if (!_nodes.Add(node))
         {
             throw new DomainException(GraphsDomainErrors.Graph.NodeAlreadyExists);
         }
     }
 
+    /// <remarks>
+    /// This method assumes all nodes have been added to the graph.
+    /// </remarks>
     private void SetStartNodeId(NodeId startNodeId)
     {
-        if (!_nodes.TryGetValue(startNodeId, out var node))
+        if (!NodesMap.TryGetValue(startNodeId, out var node))
         {
             throw new DomainException(GraphsDomainErrors.Graph.NodeDoesNotExist);
         }
@@ -174,14 +207,17 @@ public abstract class Graph : Entity<GraphId>
         StartNodeId = startNodeId;
     }
 
+    /// <remarks>
+    /// This method assumes all input ports and output ports have been added to the graph.
+    /// </remarks>
     private void AddDataLink(DataLink link)
     {
-        if (!_inputPorts.TryGetValue(link.InputPortId, out var inputPort))
+        if (!InputPortsMap.TryGetValue(link.InputPortId, out var inputPort))
         {
             throw new DomainException(GraphsDomainErrors.Graph.InputPortDoesNotExist);
         }
 
-        if (!_outputPorts.TryGetValue(link.OutputPortId, out var outputPort))
+        if (!OutputPortsMap.TryGetValue(link.OutputPortId, out var outputPort))
         {
             throw new DomainException(GraphsDomainErrors.Graph.OutputPortDoesNotExist);
         }
@@ -193,7 +229,7 @@ public abstract class Graph : Entity<GraphId>
             throw new DomainException(GraphsDomainErrors.Graph.DataLinkTypeMismatch);
         }
 
-        if (!_dataLinks.TryAdd(link.Id, link))
+        if (!_dataLinks.Add(link))
         {
             throw new DomainException(GraphsDomainErrors.Graph.DataLinkAlreadyExists);
         }
@@ -206,14 +242,17 @@ public abstract class Graph : Entity<GraphId>
         subscribeMethod.Invoke(outputPort, [inputPort]);
     }
 
+    /// <remarks>
+    /// This method assumes all nodes have been added to the graph.
+    /// </remarks>
     private void AddFlowLink(FlowLink link, IReadOnlyDictionary<Node, HashSet<FlowLinkId>> switchNodeFlowLinks)
     {
-        if (!_nodes.TryGetValue(link.InputNodeId, out var inputNode))
+        if (!NodesMap.TryGetValue(link.InputNodeId, out var inputNode))
         {
             throw new DomainException(GraphsDomainErrors.Graph.NodeDoesNotExist);
         }
 
-        if (!_nodes.TryGetValue(link.OutputNodeId, out var outputNode))
+        if (!NodesMap.TryGetValue(link.OutputNodeId, out var outputNode))
         {
             throw new DomainException(GraphsDomainErrors.Graph.NodeDoesNotExist);
         }
@@ -229,7 +268,7 @@ public abstract class Graph : Entity<GraphId>
             throw new DomainException(GraphsDomainErrors.Graph.SwitchNodeDoesNotContainFlowLink);
         }
 
-        if (!_flowLinks.TryAdd(link.Id, link))
+        if (!_flowLinks.Add(link))
         {
             throw new DomainException(GraphsDomainErrors.Graph.FlowLinkAlreadyExists);
         }

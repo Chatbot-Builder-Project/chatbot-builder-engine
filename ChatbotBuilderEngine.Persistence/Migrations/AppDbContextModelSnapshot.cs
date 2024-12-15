@@ -27,7 +27,12 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("GraphId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GraphId");
 
                     b.ToTable((string)null);
 
@@ -39,7 +44,12 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("GraphId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GraphId");
 
                     b.ToTable((string)null);
 
@@ -51,7 +61,12 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("GraphId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GraphId");
 
                     b.ToTable((string)null);
 
@@ -63,7 +78,12 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("GraphId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GraphId");
 
                     b.ToTable("Enum");
                 });
@@ -71,6 +91,9 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.DataLink", b =>
                 {
                     b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("GraphId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("InputPortId")
@@ -81,12 +104,17 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GraphId");
+
                     b.ToTable("DataLink");
                 });
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.FlowLink", b =>
                 {
                     b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("GraphId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("InputNodeId")
@@ -96,6 +124,8 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GraphId");
 
                     b.ToTable("FlowLink");
                 });
@@ -116,6 +146,22 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                         .HasFilter("[InteractionNodeId] IS NOT NULL");
 
                     b.ToTable("InteractionInput");
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Graph", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StartNodeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StartNodeId")
+                        .IsUnique();
+
+                    b.ToTable("Graph");
                 });
 
             modelBuilder.Entity("ImageOutputPortInputPort", b =>
@@ -305,8 +351,37 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.ToTable("OutputPort<TextData>");
                 });
 
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", b =>
+                {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Graph", null)
+                        .WithMany("Nodes")
+                        .HasForeignKey("GraphId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Abstract.Port<ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids.InputPortId>", b =>
+                {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Graph", null)
+                        .WithMany("InputPorts")
+                        .HasForeignKey("GraphId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Abstract.Port<ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids.OutputPortId>", b =>
+                {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Graph", null)
+                        .WithMany("OutputPorts")
+                        .HasForeignKey("GraphId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Enum", b =>
                 {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Graph", null)
+                        .WithMany("Enums")
+                        .HasForeignKey("GraphId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
                         {
                             b1.Property<Guid>("EnumId")
@@ -354,6 +429,11 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.DataLink", b =>
                 {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Graph", null)
+                        .WithMany("DataLinks")
+                        .HasForeignKey("GraphId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
                         {
                             b1.Property<Guid>("DataLinkId")
@@ -402,6 +482,11 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Links.FlowLink", b =>
                 {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Graph", null)
+                        .WithMany("FlowLinks")
+                        .HasForeignKey("GraphId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.OwnsOne("ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta.InfoMeta", "Info", b1 =>
                         {
                             b1.Property<Guid>("FlowLinkId")
@@ -497,12 +582,21 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.Navigation("Text");
                 });
 
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Graph", b =>
+                {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
+                        .WithOne()
+                        .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Graph", "StartNodeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ImageOutputPortInputPort", b =>
                 {
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.InputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.ImageData>", null)
                         .WithMany()
                         .HasForeignKey("InputPortId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.OutputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.ImageData>", null)
@@ -517,7 +611,7 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.InputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData>", null)
                         .WithMany()
                         .HasForeignKey("InputPortId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.OutputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.OptionData>", null)
@@ -532,7 +626,7 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.InputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.TextData>", null)
                         .WithMany()
                         .HasForeignKey("InputPortId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Entities.Ports.OutputPort<ChatbotBuilderEngine.Domain.ValueObjects.Data.TextData>", null)
@@ -1347,6 +1441,21 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
 
                     b.Navigation("Visual")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Graph", b =>
+                {
+                    b.Navigation("DataLinks");
+
+                    b.Navigation("Enums");
+
+                    b.Navigation("FlowLinks");
+
+                    b.Navigation("InputPorts");
+
+                    b.Navigation("Nodes");
+
+                    b.Navigation("OutputPorts");
                 });
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction.InteractionNode", b =>

@@ -23,11 +23,11 @@ internal static class OutputPortConfigurationExtension
                 j => j.HasOne<InputPort<TData>>()
                     .WithMany()
                     .HasForeignKey("InputPortId")
-                    .OnDelete(DeleteBehavior.Cascade),
+                    .OnDelete(DeleteBehavior.NoAction),
                 j => j.HasOne<OutputPort<TData>>()
                     .WithMany()
                     .HasForeignKey("OutputPortId")
-                    .OnDelete(DeleteBehavior.Cascade),
+                    .OnDelete(DeleteBehavior.Cascade), // one cascade is enough
                 j =>
                 {
                     j.HasKey("OutputPortId", "InputPortId");
