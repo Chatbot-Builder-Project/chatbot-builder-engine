@@ -22,6 +22,38 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Chatbots.Chatbot", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("WorkflowId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkflowId");
+
+                    b.ToTable("Chatbot");
+                });
+
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", b =>
                 {
                     b.Property<Guid>("Id")
@@ -153,6 +185,9 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ChatbotId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("StartNodeId")
                         .HasColumnType("uniqueidentifier");
 
@@ -160,6 +195,10 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChatbotId")
+                        .IsUnique()
+                        .HasFilter("[ChatbotId] IS NOT NULL");
 
                     b.HasIndex("StartNodeId")
                         .IsUnique();
@@ -403,6 +442,37 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.ToTable("OutputPort<TextData>");
                 });
 
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Chatbots.Chatbot", b =>
+                {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Workflows.Workflow", null)
+                        .WithMany()
+                        .HasForeignKey("WorkflowId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.OwnsOne("ChatbotBuilderEngine.Domain.Chatbots.ValueObjects.Version", "Version", b1 =>
+                        {
+                            b1.Property<Guid>("ChatbotId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Major")
+                                .HasColumnType("int");
+
+                            b1.HasKey("ChatbotId");
+
+                            b1.HasIndex("Major")
+                                .IsUnique();
+
+                            b1.ToTable("Chatbot");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ChatbotId");
+                        });
+
+                    b.Navigation("Version")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", b =>
                 {
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Graph", null)
@@ -636,6 +706,11 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Graph", b =>
                 {
+                    b.HasOne("ChatbotBuilderEngine.Domain.Chatbots.Chatbot", null)
+                        .WithOne("Graph")
+                        .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Graph", "ChatbotId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Abstract.Node", null)
                         .WithOne()
                         .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Graph", "StartNodeId")
@@ -1506,6 +1581,12 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Visual")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Chatbots.Chatbot", b =>
+                {
+                    b.Navigation("Graph")
                         .IsRequired();
                 });
 
