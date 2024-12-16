@@ -153,19 +153,20 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("StartNodeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid?>("WorkflowId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("StartNodeId")
                         .IsUnique();
+
+                    b.HasIndex("WorkflowId")
+                        .IsUnique()
+                        .HasFilter("[WorkflowId] IS NOT NULL");
 
                     b.ToTable("Graph");
                 });
@@ -198,9 +199,6 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("GraphId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -212,8 +210,6 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GraphId");
 
                     b.HasIndex("OwnerId");
 
@@ -645,16 +641,15 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                         .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Graph", "StartNodeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("ChatbotBuilderEngine.Domain.Workflows.Workflow", null)
+                        .WithOne("Graph")
+                        .HasForeignKey("ChatbotBuilderEngine.Domain.Graphs.Graph", "WorkflowId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Workflows.Workflow", b =>
                 {
-                    b.HasOne("ChatbotBuilderEngine.Domain.Graphs.Graph", null)
-                        .WithMany()
-                        .HasForeignKey("GraphId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("ChatbotBuilderEngine.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("OwnerId")
@@ -1527,6 +1522,12 @@ namespace ChatbotBuilderEngine.Persistence.Migrations
                     b.Navigation("Nodes");
 
                     b.Navigation("OutputPorts");
+                });
+
+            modelBuilder.Entity("ChatbotBuilderEngine.Domain.Workflows.Workflow", b =>
+                {
+                    b.Navigation("Graph")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction.InteractionNode", b =>

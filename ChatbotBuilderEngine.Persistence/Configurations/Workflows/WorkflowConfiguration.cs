@@ -1,4 +1,5 @@
 using ChatbotBuilderEngine.Domain.Graphs;
+using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
 using ChatbotBuilderEngine.Domain.Users;
 using ChatbotBuilderEngine.Domain.Workflows;
 using ChatbotBuilderEngine.Persistence.Configurations.Extensions;
@@ -25,10 +26,10 @@ internal sealed class WorkflowConfiguration : IEntityTypeConfiguration<Workflow>
             .IsRequired()
             .OnDelete(DeleteBehavior.NoAction);
 
-        builder.HasOne<Graph>()
-            .WithMany()
-            .HasForeignKey(w => w.GraphId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(w => w.Graph)
+            .WithOne()
+            .HasForeignKey<Graph>("WorkflowId")
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

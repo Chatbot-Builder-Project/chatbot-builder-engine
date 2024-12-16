@@ -31,7 +31,7 @@ namespace ChatbotBuilderEngine.Domain.Graphs;
 /// <remarks>
 /// Corresponds to WorkflowComponents in upper layers.
 /// </remarks>
-public sealed class Graph : AggregateRoot<GraphId>
+public sealed class Graph : Entity<GraphId>
 {
     private readonly HashSet<Enum> _enums = [];
     private readonly HashSet<Port<InputPortId>> _inputPorts = [];
