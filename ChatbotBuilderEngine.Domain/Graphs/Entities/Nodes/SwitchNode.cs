@@ -13,7 +13,7 @@ public sealed class SwitchNode : Node,
 {
     public InputPort<OptionData> InputPort { get; } = null!;
     public Enum Enum { get; } = null!;
-    public Dictionary<OptionData, FlowLinkId> Bindings { get; } = null!;
+    public IReadOnlyDictionary<OptionData, FlowLinkId> Bindings { get; } = null!;
     public OptionData? SelectedOption { get; private set; }
 
     private SwitchNode(
@@ -22,7 +22,7 @@ public sealed class SwitchNode : Node,
         VisualMeta visual,
         InputPort<OptionData> inputPort,
         Enum @enum,
-        Dictionary<OptionData, FlowLinkId> bindings)
+        IReadOnlyDictionary<OptionData, FlowLinkId> bindings)
         : base(id, info, visual)
     {
         InputPort = inputPort;
@@ -41,7 +41,7 @@ public sealed class SwitchNode : Node,
         VisualMeta visual,
         InputPort<OptionData> inputPort,
         Enum @enum,
-        Dictionary<OptionData, FlowLinkId> bindings)
+        IReadOnlyDictionary<OptionData, FlowLinkId> bindings)
     {
         @enum.EnsureValidBindings(bindings);
         inputPort.EnsureNodeIdIs(id);
@@ -70,7 +70,7 @@ public sealed class SwitchNode : Node,
         return Bindings.Values;
     }
 
-    public FlowLinkId GetFlowLinkId(OptionData option)
+    public FlowLinkId GetSelectedFlowLinkId()
     {
         if (SelectedOption is null)
         {
