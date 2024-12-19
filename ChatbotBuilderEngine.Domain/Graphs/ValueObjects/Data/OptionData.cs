@@ -1,6 +1,6 @@
 ﻿using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
 
-namespace ChatbotBuilderEngine.Domain.ValueObjects.Data;
+namespace ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
 
 public sealed class OptionData : Data
 {

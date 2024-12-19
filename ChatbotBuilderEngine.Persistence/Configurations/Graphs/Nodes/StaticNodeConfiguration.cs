@@ -1,6 +1,7 @@
 ﻿using ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
-using ChatbotBuilderEngine.Domain.ValueObjects.Data;
+using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
 using ChatbotBuilderEngine.Persistence.Configurations.Extensions;
+using ChatbotBuilderEngine.Persistence.Configurations.Graphs.Extensions;
 using ChatbotBuilderEngine.Persistence.Configurations.Graphs.Nodes.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

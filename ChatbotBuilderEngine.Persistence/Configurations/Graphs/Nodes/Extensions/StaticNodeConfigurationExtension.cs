@@ -1,6 +1,6 @@
 ﻿using ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
 using ChatbotBuilderEngine.Domain.Graphs.Entities.Ports;
-using ChatbotBuilderEngine.Domain.ValueObjects.Data;
+using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

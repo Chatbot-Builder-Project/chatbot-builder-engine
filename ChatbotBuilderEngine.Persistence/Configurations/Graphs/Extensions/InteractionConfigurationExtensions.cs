@@ -1,5 +1,5 @@
-﻿using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Interactions;
-using ChatbotBuilderEngine.Domain.ValueObjects.Data;
+﻿using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
+using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Interactions;
 using ChatbotBuilderEngine.Persistence.Configurations.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

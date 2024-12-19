@@ -1,7 +1,8 @@
-﻿using ChatbotBuilderEngine.Domain.ValueObjects.Data;
+﻿using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
+using ChatbotBuilderEngine.Persistence.Configurations.Extensions;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChatbotBuilderEngine.Persistence.Configurations.Extensions;
+namespace ChatbotBuilderEngine.Persistence.Configurations.Graphs.Extensions;
 
 internal static class DataConfigurationExtensions
 {

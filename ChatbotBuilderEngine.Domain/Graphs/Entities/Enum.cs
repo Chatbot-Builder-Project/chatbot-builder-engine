@@ -1,8 +1,8 @@
 ﻿using ChatbotBuilderEngine.Domain.Core;
 using ChatbotBuilderEngine.Domain.Core.Primitives;
+using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta;
-using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 
 namespace ChatbotBuilderEngine.Domain.Graphs.Entities;
 
