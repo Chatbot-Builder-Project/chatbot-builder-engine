@@ -1,4 +1,4 @@
-﻿using ChatbotBuilderEngine.Domain.Core.Primitives;
+﻿using ChatbotBuilderEngine.Application.Core.Shared;
 using MediatR;
 
 namespace ChatbotBuilderEngine.Application.Core.Abstract.Messaging;
