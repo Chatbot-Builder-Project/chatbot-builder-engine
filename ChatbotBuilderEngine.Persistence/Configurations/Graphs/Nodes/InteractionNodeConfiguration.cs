@@ -47,18 +47,7 @@ internal sealed class InteractionNodeConfiguration : IEntityTypeConfiguration<In
             .WithOne()
             .IsRequired(false)
             .HasForeignKey<InteractionInput>("InteractionNodeId")
-            .OnDelete(DeleteBehavior.Cascade);
-    }
-}
-
-internal sealed class InteractionInputConfiguration : IEntityTypeConfiguration<InteractionInput>
-{
-    public void Configure(EntityTypeBuilder<InteractionInput> builder)
-    {
-        builder.Property<Guid>("Id").ValueGeneratedOnAdd();
-        builder.HasKey("Id");
-
-        builder.OwnsOne(i => i.Text, t => t.ConfigureTextData());
-        builder.OwnsOne(i => i.Option, o => o.ConfigureOptionData());
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.NoAction); // Issue
     }
 }
