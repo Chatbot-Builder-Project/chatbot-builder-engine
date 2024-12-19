@@ -3,7 +3,7 @@ using ChatbotBuilderEngine.Domain.Core.Primitives;
 using ChatbotBuilderEngine.Domain.Graphs.Abstract;
 using ChatbotBuilderEngine.Domain.Graphs.Abstract.Behaviors;
 using ChatbotBuilderEngine.Domain.Graphs.Entities.Links;
-using ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction;
+using ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
 using ChatbotBuilderEngine.Domain.Graphs.Entities.Ports;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
 using Enum = ChatbotBuilderEngine.Domain.Graphs.Entities.Enum;
@@ -18,6 +18,7 @@ namespace ChatbotBuilderEngine.Domain.Graphs;
 /// <item>Add all nodes, ensure that all their ports and enums exist</item>
 /// <item>Ensure that no extra ports exist, extra enums are allowed</item>
 /// <item>Set the start node id, ensure that it's an interaction node and that it exists</item>
+/// <item>Set the current node id to the start node id</item>
 /// <item>Add all data links, ensure that all their ports exist</item>
 /// <item>Ensure that no InputPort is without at least one DataLink.
 /// (In the future it should also ensure that at no graph path can an input port be uninitialized,
@@ -41,6 +42,7 @@ public sealed class Graph : Entity<GraphId>
     private readonly HashSet<DataLink> _dataLinks = [];
 
     public NodeId StartNodeId { get; private set; } = null!;
+    public NodeId CurrentNodeId { get; private set; } = null!;
     public IReadOnlySet<Enum> Enums => _enums;
     public IReadOnlySet<Port<InputPortId>> InputPorts => _inputPorts;
     public IReadOnlySet<Port<OutputPortId>> OutputPorts => _outputPorts;
@@ -77,6 +79,18 @@ public sealed class Graph : Entity<GraphId>
     {
     }
 
+    public void SetCurrentNodeId(NodeId nodeId)
+    {
+        if (!NodesMap.ContainsKey(nodeId))
+        {
+            throw new DomainException(GraphsDomainErrors.Graph.NodeDoesNotExist);
+        }
+
+        CurrentNodeId = nodeId;
+    }
+
+    public Node GetCurrentNode() => NodesMap[CurrentNodeId];
+
     public static Graph Create(
         GraphId id,
         IReadOnlyList<Enum> enums,
@@ -112,6 +126,7 @@ public sealed class Graph : Entity<GraphId>
         graph.EnsureNoExtraPorts();
 
         graph.SetStartNodeId(startNodeId);
+        graph.SetCurrentNodeId(startNodeId);
 
         foreach (var dataLink in dataLinks)
         {
