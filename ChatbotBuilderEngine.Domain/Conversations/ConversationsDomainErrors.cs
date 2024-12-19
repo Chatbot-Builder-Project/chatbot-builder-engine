@@ -16,4 +16,22 @@ public static class ConversationsDomainErrors
             "Conversation.OutputMessageIsOutOfOrder",
             "Output message is out of order");
     }
+
+    public static class ConversationFlow
+    {
+        public static readonly Error GraphMismatch = new(
+            ErrorType.DomainValidation,
+            "ConversationFlow.GraphMismatch",
+            "Conversation graph mismatch");
+
+        public static readonly Error ConversationNotSet = new(
+            ErrorType.DomainValidation,
+            "ConversationFlow.ConversationNotSet",
+            "Conversation not set");
+
+        public static readonly Error NodeIsNotAnInteractionNode = new(
+            ErrorType.DomainValidation,
+            "Conversation.NodeIsNotAnInteractionNode",
+            "Node is not an interaction node");
+    }
 }
