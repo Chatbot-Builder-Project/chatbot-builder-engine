@@ -33,8 +33,8 @@ public sealed class Error : ValueObject
         string.Empty,
         string.Empty);
 
-    public static Error DomainValidation(string code, string message) => new(
-        ErrorType.DomainValidation,
+    public static Error DomainInvariant(string code, string message) => new(
+        ErrorType.DomainInvariant,
         code,
         message);
 
@@ -62,7 +62,7 @@ public sealed class Error : ValueObject
 public enum ErrorType
 {
     None,
-    DomainValidation,
+    DomainInvariant,
     ApplicationValidation,
     BusinessRuleViolation,
     ResourceConflict,
