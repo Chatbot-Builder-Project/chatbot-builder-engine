@@ -19,6 +19,12 @@ internal sealed class GraphConfiguration : IEntityTypeConfiguration<Graph>
             .HasForeignKey<Graph>(g => g.StartNodeId)
             .OnDelete(DeleteBehavior.NoAction);
 
+        builder.Property(g => g.CurrentNodeId).ApplyEntityIdConversion();
+        builder.HasOne<Node>()
+            .WithOne()
+            .HasForeignKey<Graph>(g => g.CurrentNodeId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         builder.HasMany(g => g.Enums)
             .WithOne()
             .HasForeignKey("GraphId")

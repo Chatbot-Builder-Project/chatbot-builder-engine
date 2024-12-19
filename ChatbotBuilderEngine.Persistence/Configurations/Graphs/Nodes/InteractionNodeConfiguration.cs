@@ -1,5 +1,6 @@
-﻿using ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction;
+﻿using ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
 using ChatbotBuilderEngine.Domain.Graphs.Entities.Ports;
+using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Interactions;
 using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 using ChatbotBuilderEngine.Persistence.Configurations.Converters;
 using ChatbotBuilderEngine.Persistence.Configurations.Extensions;

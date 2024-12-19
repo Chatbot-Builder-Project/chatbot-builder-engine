@@ -8,7 +8,8 @@ namespace ChatbotBuilderEngine.Persistence.Configurations.Converters;
 /// When serializing a dictionary, update operations on the dictionary will not be tracked by EF Core.
 /// So you would need to call <see cref="DbContext.Update{TEntity}(TEntity)"/> explicitly on the entity.
 /// </remarks>
-public class DictionaryJsonConverter<TKey, TValue> : ValueConverter<Dictionary<TKey, TValue>, string>
+public class DictionaryJsonConverter<TKey, TValue>
+    : ValueConverter<IReadOnlyDictionary<TKey, TValue>, string>
     where TKey : notnull
 {
     public DictionaryJsonConverter() : base(
@@ -19,9 +20,9 @@ public class DictionaryJsonConverter<TKey, TValue> : ValueConverter<Dictionary<T
     }
 }
 
-public class NullableDictionaryJsonConverter<TKey, TValue> : ValueConverter<Dictionary<TKey, TValue>?, string>
+public class NullableDictionaryJsonConverter<TKey, TValue>
+    : ValueConverter<IReadOnlyDictionary<TKey, TValue>?, string>
     where TKey : notnull
-
 {
     public NullableDictionaryJsonConverter() : base(
         dict => dict == null
