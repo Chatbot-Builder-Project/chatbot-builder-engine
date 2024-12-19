@@ -8,17 +8,17 @@ namespace ChatbotBuilderEngine.Domain.Graphs.Entities;
 
 public sealed class Enum : Entity<EnumId>
 {
-    private readonly HashSet<OptionData> _options = [];
-
     public InfoMeta Info { get; } = null!;
-    public IReadOnlySet<OptionData> Options => _options;
+    public IReadOnlySet<OptionData> Options { get; } = null!;
 
     private Enum(
         EnumId id,
-        InfoMeta info)
+        InfoMeta info,
+        IReadOnlySet<OptionData> options)
         : base(id)
     {
         Info = info;
+        Options = options;
     }
 
     /// <inheritdoc/>
@@ -29,30 +29,15 @@ public sealed class Enum : Entity<EnumId>
     public static Enum Create(
         EnumId id,
         InfoMeta info,
-        IReadOnlyList<OptionData> options)
+        IReadOnlySet<OptionData> options)
     {
-        var @enum = new Enum(id, info);
-
-        foreach (var option in options)
-        {
-            @enum.AddOption(option);
-        }
-
-        return @enum;
+        return new Enum(id, info, options);
     }
 
-    private void AddOption(OptionData option)
+    public void EnsureValidBindings<T>(IReadOnlyDictionary<OptionData, T> mapping)
     {
-        if (!_options.Add(option))
-        {
-            throw new DomainException(GraphsDomainErrors.Enum.OptionAlreadyExists);
-        }
-    }
-
-    public void EnsureValidBindings<T>(Dictionary<OptionData, T> mapping)
-    {
-        if (mapping.Count != _options.Count
-            || _options.Any(option => !mapping.ContainsKey(option)))
+        if (mapping.Count != Options.Count
+            || Options.Any(option => !mapping.ContainsKey(option)))
         {
             throw new DomainException(GraphsDomainErrors.Enum.InvalidMapping);
         }

@@ -6,11 +6,6 @@ public static class GraphsDomainErrors
 {
     public static class Enum
     {
-        public static readonly Error OptionAlreadyExists = new(
-            ErrorType.DomainValidation,
-            "Enum.OptionAlreadyExists",
-            "This option already exists in the enum");
-
         public static readonly Error InvalidMapping = new(
             ErrorType.DomainValidation,
             "Enum.InvalidMapping",
@@ -142,6 +137,16 @@ public static class GraphsDomainErrors
             ErrorType.DomainValidation,
             "Graph.SwitchNodeContainsExtraFlowLinkIds",
             "The switch node contains extra flow link IDs that are not connected to any flow link");
+
+        public static readonly Error NonSwitchNodeHasMultipleOutputFlowLinks = new(
+            ErrorType.DomainValidation,
+            "PromptNode.NonSwitchNodeHasMultipleOutputFlowLinks",
+            "A non-switch node cannot have multiple output flow links");
+
+        public static readonly Error InteractionNodeNotFound = new(
+            ErrorType.DomainValidation,
+            "Conversation.InteractionNodeNotFound",
+            "Interaction node not found");
     }
 
     public static class PromptNode
@@ -236,5 +241,13 @@ public static class GraphsDomainErrors
             ErrorType.DomainValidation,
             "InteractionNode.InputOptionIsUnnecessary",
             "The given input is unnecessary option input");
+    }
+
+    public static class GraphTraversal
+    {
+        public static readonly Error GraphNotSet = new(
+            ErrorType.DomainValidation,
+            "GraphTraversal.GraphNotSet",
+            "Graph not set");
     }
 }

@@ -3,10 +3,11 @@ using ChatbotBuilderEngine.Domain.Graphs.Abstract;
 using ChatbotBuilderEngine.Domain.Graphs.Abstract.Behaviors;
 using ChatbotBuilderEngine.Domain.Graphs.Entities.Ports;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
+using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Interactions;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta;
 using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 
-namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction;
+namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes;
 
 public sealed class InteractionNode : Node,
     IInputNode, IEnumNode, IOutputNode
@@ -16,7 +17,7 @@ public sealed class InteractionNode : Node,
 
     public Enum? OutputEnum { get; }
     public OutputPort<OptionData>? OptionOutputPort { get; }
-    public Dictionary<OptionData, InteractionOptionMeta>? OutputOptionMetas { get; }
+    public IReadOnlyDictionary<OptionData, InteractionOptionMeta>? OutputOptionMetas { get; }
 
     public InteractionInput? InteractionInput { get; private set; }
 
@@ -28,7 +29,7 @@ public sealed class InteractionNode : Node,
         OutputPort<TextData>? textOutputPort,
         Enum? outputEnum,
         OutputPort<OptionData>? optionOutputPort,
-        Dictionary<OptionData, InteractionOptionMeta>? outputOptionMetas)
+        IReadOnlyDictionary<OptionData, InteractionOptionMeta>? outputOptionMetas)
         : base(id, info, visual)
     {
         TextInputPort = textInputPort;
@@ -51,7 +52,7 @@ public sealed class InteractionNode : Node,
         OutputPort<TextData>? textOutputPort,
         Enum? outputEnum,
         OutputPort<OptionData>? optionOutputPort,
-        Dictionary<OptionData, InteractionOptionMeta>? outputOptionMetas)
+        IReadOnlyDictionary<OptionData, InteractionOptionMeta>? outputOptionMetas)
     {
         if (textInputPort is null)
         {
@@ -109,7 +110,8 @@ public sealed class InteractionNode : Node,
         return InteractionOutput.Create(
             TextInputPort?.GetData(),
             TextOutputPort is not null,
-            OptionOutputPort is not null);
+            OptionOutputPort is not null,
+            OutputOptionMetas);
     }
 
     public void SetInteractionInput(InteractionInput input)

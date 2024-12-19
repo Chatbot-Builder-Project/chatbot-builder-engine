@@ -1,7 +1,7 @@
 ﻿using ChatbotBuilderEngine.Domain.Core.Primitives;
 using ChatbotBuilderEngine.Domain.ValueObjects.Data;
 
-namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction;
+namespace ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Interactions;
 
 /// <summary>
 /// Contains the input data that are collected from the user.

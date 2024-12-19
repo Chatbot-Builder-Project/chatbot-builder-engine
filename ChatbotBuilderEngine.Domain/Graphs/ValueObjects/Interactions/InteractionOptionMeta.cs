@@ -1,6 +1,6 @@
 ﻿using ChatbotBuilderEngine.Domain.Core.Primitives;
 
-namespace ChatbotBuilderEngine.Domain.Graphs.Entities.Nodes.Interaction;
+namespace ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Interactions;
 
 /// <summary>
 /// Meta information for an OptionData used in an Interaction node
