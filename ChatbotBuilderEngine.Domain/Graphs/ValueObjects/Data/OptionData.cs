@@ -1,15 +1,11 @@
-﻿using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Ids;
-
-namespace ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
+﻿namespace ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
 
 public sealed class OptionData : Data
 {
-    public EnumId EnumId { get; } = null!;
     public string Value { get; } = null!;
 
-    private OptionData(EnumId enumId, string value)
+    private OptionData(string value)
     {
-        EnumId = enumId;
         Value = value;
     }
 
@@ -18,11 +14,10 @@ public sealed class OptionData : Data
     {
     }
 
-    public static OptionData Create(EnumId enumId, string value) => new(enumId, value);
+    public static OptionData Create(string value) => new(value);
 
     protected override IEnumerable<object> GetAtomicValues()
     {
-        yield return EnumId;
         yield return Value;
     }
 }
