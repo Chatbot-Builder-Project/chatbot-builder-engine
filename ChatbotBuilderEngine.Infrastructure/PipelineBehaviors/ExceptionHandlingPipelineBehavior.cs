@@ -30,10 +30,10 @@ public class ExceptionHandlingPipelineBehavior<TRequest, TResponse> : IPipelineB
                     typeof(Result<>).MakeGenericType(typeof(TResponse).GetGenericArguments()[0]),
                     null,
                     false,
-                    Error.ApplicationValidation("ValidationFailed", ex.Message),
+                    Error.ApplicationValidation("Validation.Failed", ex.Message),
                     validationErrors)!
                 : (TResponse)Result.ValidationFailure(
-                    "ValidationFailed",
+                    "Validation.Failed",
                     ex.Message,
                     validationErrors);
 
