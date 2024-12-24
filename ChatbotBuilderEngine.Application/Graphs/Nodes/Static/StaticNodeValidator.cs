@@ -1,5 +1,4 @@
 ﻿using ChatbotBuilderEngine.Application.Graphs.Ports.OutputPorts;
-using ChatbotBuilderEngine.Application.Graphs.Shared.Data;
 using ChatbotBuilderEngine.Application.Graphs.Shared.Data.Extensions;
 using FluentValidation;
 
@@ -18,6 +17,9 @@ public sealed class StaticNodeValidator : AbstractValidator<StaticNodeDto>
 
         RuleFor(x => x.OutputPort)
             .SetValidator(new OutputPortValidator());
+
+        RuleFor(x => x)
+            .Must(x => x.OutputPort.NodeIdentifier == x.Info.Identifier);
 
         RuleFor(x => x.Data)
             .SetValidator(x => x.Data.GetValidator());

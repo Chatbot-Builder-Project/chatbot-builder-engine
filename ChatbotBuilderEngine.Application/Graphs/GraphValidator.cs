@@ -3,6 +3,7 @@ using ChatbotBuilderEngine.Application.Graphs.Enums;
 using ChatbotBuilderEngine.Application.Graphs.Links.DataLinks;
 using ChatbotBuilderEngine.Application.Graphs.Links.FlowLinks;
 using ChatbotBuilderEngine.Application.Graphs.Nodes;
+using ChatbotBuilderEngine.Application.Graphs.Nodes.Abstract;
 using ChatbotBuilderEngine.Application.Graphs.Nodes.Extensions;
 using FluentValidation;
 
@@ -75,5 +76,37 @@ public sealed class GraphValidator : AbstractValidator<GraphDto>
             .ChildRules(@enum => @enum
                 .RuleFor(x => x)
                 .SetValidator(new EnumValidator()));
+
+        RuleFor(x => x)
+            .Must(x =>
+            {
+                var enumsByIdentifier = x.Enums.ToDictionary(@enum => @enum.Info.Identifier);
+                foreach (var node in x.Nodes)
+                {
+                    if (node is IEnumNodeDto enumNodeDto
+                        && enumNodeDto.GetEnumIds().Any(enumId => !enumsByIdentifier.ContainsKey(enumId)))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+        RuleFor(x => x)
+            .Must(x =>
+            {
+                var flowLinksByIdentifier = x.FlowLinks.ToDictionary(link => link.Info.Identifier);
+                foreach (var node in x.Nodes)
+                {
+                    if (node is ISwitchNodeDto switchNodeDto
+                        && switchNodeDto.GetFlowLinkIds().Any(portId => !flowLinksByIdentifier.ContainsKey(portId)))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
     }
 }

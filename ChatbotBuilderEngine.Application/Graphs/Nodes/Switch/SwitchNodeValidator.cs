@@ -14,6 +14,9 @@ public sealed class SwitchNodeValidator : AbstractValidator<SwitchNodeDto>
         RuleFor(x => x.InputPort)
             .SetValidator(new InputPortValidator(DataType.Option));
 
+        RuleFor(x => x)
+            .Must(x => x.InputPort.NodeIdentifier == x.Info.Identifier);
+
         RuleFor(x => x.Bindings)
             .ChildRules(b => b
                 .RuleForEach(meta => meta.Keys)

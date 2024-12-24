@@ -5,11 +5,9 @@ using ChatbotBuilderEngine.Application.Graphs.Nodes;
 
 namespace ChatbotBuilderEngine.Application.Graphs;
 
-public sealed class GraphDto
-{
-    public required int StartNodeIdentifier { get; init; }
-    public required IReadOnlyList<NodeDto> Nodes { get; init; }
-    public required IReadOnlyList<DataLinkDto> DataLinks { get; init; }
-    public required IReadOnlyList<FlowLinkDto> FlowLinks { get; init; }
-    public required IReadOnlyList<EnumDto> Enums { get; init; }
-}
+public sealed record GraphDto(
+    int StartNodeIdentifier,
+    IReadOnlyList<NodeDto> Nodes,
+    IReadOnlyList<DataLinkDto> DataLinks,
+    IReadOnlyList<FlowLinkDto> FlowLinks,
+    IReadOnlyList<EnumDto> Enums);

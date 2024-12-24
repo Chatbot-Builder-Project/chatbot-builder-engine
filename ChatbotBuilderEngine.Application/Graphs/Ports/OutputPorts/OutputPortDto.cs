@@ -7,5 +7,6 @@ public sealed record OutputPortDto(
     InfoMeta Info,
     VisualMeta Visual,
     PortDirection Direction,
+    int NodeIdentifier,
     DataType DataType
-) : PortDto(Info, Visual, Direction);
+) : PortDto(Info, Visual, Direction, NodeIdentifier);

@@ -1,4 +1,5 @@
-﻿using ChatbotBuilderEngine.Application.Graphs.Ports.OutputPorts;
+﻿using ChatbotBuilderEngine.Application.Graphs.Nodes.Abstract;
+using ChatbotBuilderEngine.Application.Graphs.Ports.OutputPorts;
 using ChatbotBuilderEngine.Application.Graphs.Shared.Data;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Data;
 using ChatbotBuilderEngine.Domain.Graphs.ValueObjects.Meta;
@@ -12,4 +13,11 @@ public sealed record StaticNodeDto(
     DataType DataType,
     Data Data,
     OutputPortDto OutputPort
-) : NodeDto(Info, Visual, Type);
+) : NodeDto(Info, Visual, Type),
+    IOutputNodeDto
+{
+    public IEnumerable<int> GetOutputPortIds()
+    {
+        yield return OutputPort.Info.Identifier;
+    }
+}

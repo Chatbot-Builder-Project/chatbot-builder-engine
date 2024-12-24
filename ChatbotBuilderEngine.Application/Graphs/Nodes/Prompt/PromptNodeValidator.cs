@@ -21,10 +21,16 @@ public sealed class PromptNodeValidator : AbstractValidator<PromptNodeDto>
         RuleFor(x => x.OutputPort)
             .SetValidator(new OutputPortValidator(DataType.Text));
 
+        RuleFor(x => x)
+            .Must(x => x.OutputPort.NodeIdentifier == x.Info.Identifier);
+
         RuleFor(x => x.InputPorts)
             .IsUnique();
 
         RuleForEach(x => x.InputPorts)
             .SetValidator(new InputPortValidator(DataType.Text));
+
+        RuleFor(x => x)
+            .Must(x => x.InputPorts.All(ip => ip.NodeIdentifier == x.Info.Identifier));
     }
 }

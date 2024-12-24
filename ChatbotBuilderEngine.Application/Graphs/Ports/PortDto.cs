@@ -5,5 +5,5 @@ namespace ChatbotBuilderEngine.Application.Graphs.Ports;
 public abstract record PortDto(
     InfoMeta Info,
     VisualMeta Visual,
-    PortDirection Direction
-);
+    PortDirection Direction,
+    int NodeIdentifier);
