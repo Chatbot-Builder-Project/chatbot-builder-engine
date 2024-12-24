@@ -194,15 +194,20 @@ public sealed class Graph : Entity<GraphId>
         switch (node)
         {
             case IInputNode inputNode when
-                inputNode.GetInputPortIds().Any(inputPortId => !InputPortsMap.ContainsKey(inputPortId)):
+                inputNode.GetInputPorts()
+                    .Select(p => p.Id)
+                    .Any(inputPortId => !InputPortsMap.ContainsKey(inputPortId)):
                 throw new DomainException(GraphsDomainErrors.Graph.InputPortDoesNotExist);
 
             case IOutputNode outputNode when
-                outputNode.GetOutputPortIds().Any(outputPortId => !OutputPortsMap.ContainsKey(outputPortId)):
+                outputNode.GetOutputPorts()
+                    .Select(p => p.Id)
+                    .Any(outputPortId => !OutputPortsMap.ContainsKey(outputPortId)):
                 throw new DomainException(GraphsDomainErrors.Graph.OutputPortDoesNotExist);
 
             case IEnumNode enumNode when
-                enumNode.GetEnumIds().Any(enumId => !EnumsMap.ContainsKey(enumId)):
+                enumNode.GetEnumIds()
+                    .Any(enumId => !EnumsMap.ContainsKey(enumId)):
                 throw new DomainException(GraphsDomainErrors.Graph.EnumDoesNotExist);
         }
 
@@ -216,12 +221,16 @@ public sealed class Graph : Entity<GraphId>
     {
         var nodeInputPortIds = Nodes
             .OfType<IInputNode>()
-            .SelectMany(node => node.GetInputPortIds())
+            .SelectMany(node => node
+                .GetInputPorts()
+                .Select(p => p.Id))
             .ToHashSet();
 
         var nodeOutputPortIds = Nodes
             .OfType<IOutputNode>()
-            .SelectMany(node => node.GetOutputPortIds())
+            .SelectMany(node => node
+                .GetOutputPorts()
+                .Select(p => p.Id))
             .ToHashSet();
 
         if (InputPorts.Any(port => !nodeInputPortIds.Contains(port.Id)))

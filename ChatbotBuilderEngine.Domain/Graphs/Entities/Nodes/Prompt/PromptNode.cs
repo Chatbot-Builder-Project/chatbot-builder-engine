@@ -77,14 +77,14 @@ public sealed class PromptNode : Node,
         return Task.CompletedTask;
     }
 
-    public IEnumerable<InputPortId> GetInputPortIds()
+    public IEnumerable<Port<InputPortId>> GetInputPorts()
     {
-        return InputPorts.Select(ip => ip.Id);
+        return InputPorts;
     }
 
-    public IEnumerable<OutputPortId> GetOutputPortIds()
+    public IEnumerable<Port<OutputPortId>> GetOutputPorts()
     {
-        yield return OutputPort.Id;
+        yield return OutputPort;
     }
 
     public void PublishOutputs()

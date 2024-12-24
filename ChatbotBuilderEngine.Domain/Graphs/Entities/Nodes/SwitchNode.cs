@@ -55,9 +55,9 @@ public sealed class SwitchNode : Node,
         return Task.CompletedTask;
     }
 
-    public IEnumerable<InputPortId> GetInputPortIds()
+    public IEnumerable<Port<InputPortId>> GetInputPorts()
     {
-        yield return InputPort.Id;
+        yield return InputPort;
     }
 
     public IEnumerable<EnumId> GetEnumIds()

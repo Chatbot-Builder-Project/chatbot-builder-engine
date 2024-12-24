@@ -7,6 +7,6 @@ namespace ChatbotBuilderEngine.Domain.Graphs.Abstract.Behaviors;
 /// </summary>
 public interface IOutputNode
 {
-    IEnumerable<OutputPortId> GetOutputPortIds();
+    IEnumerable<Port<OutputPortId>> GetOutputPorts();
     void PublishOutputs();
 }

@@ -42,9 +42,9 @@ public sealed class StaticNode<TOutputData> : Node,
         return new StaticNode<TOutputData>(id, info, visual, data, outputPort);
     }
 
-    public IEnumerable<OutputPortId> GetOutputPortIds()
+    public IEnumerable<Port<OutputPortId>> GetOutputPorts()
     {
-        yield return OutputPort.Id;
+        yield return OutputPort;
     }
 
     public void PublishOutputs()

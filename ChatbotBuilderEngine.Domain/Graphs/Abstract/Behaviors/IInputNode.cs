@@ -7,5 +7,5 @@ namespace ChatbotBuilderEngine.Domain.Graphs.Abstract.Behaviors;
 /// </summary>
 public interface IInputNode
 {
-    IEnumerable<InputPortId> GetInputPortIds();
+    IEnumerable<Port<InputPortId>> GetInputPorts();
 }

@@ -139,24 +139,24 @@ public sealed class InteractionNode : Node,
         InteractionInput = input;
     }
 
-    public IEnumerable<InputPortId> GetInputPortIds()
+    public IEnumerable<Port<InputPortId>> GetInputPorts()
     {
         if (TextInputPort is not null)
         {
-            yield return TextInputPort.Id;
+            yield return TextInputPort;
         }
     }
 
-    public IEnumerable<OutputPortId> GetOutputPortIds()
+    public IEnumerable<Port<OutputPortId>> GetOutputPorts()
     {
         if (TextOutputPort is not null)
         {
-            yield return TextOutputPort.Id;
+            yield return TextOutputPort;
         }
 
         if (OptionOutputPort is not null)
         {
-            yield return OptionOutputPort.Id;
+            yield return OptionOutputPort;
         }
     }
 
