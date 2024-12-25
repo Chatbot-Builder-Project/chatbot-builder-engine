@@ -6,13 +6,13 @@ using ChatbotBuilderEngine.Application.Core.Shared.Responses;
 namespace ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
 
 /// <summary>
-/// A read-only repository for any domain entity.
+/// A generic read-only repository for any domain entity.
 /// </summary>
 /// <remarks>
 /// To perform CUD operations use each entities' specific repository,
 /// and it can only be performed on Aggregate Roots.
 /// </remarks>
-public interface IRepository<TEntity> where TEntity : class
+public interface IReadRepository<TEntity> where TEntity : class
 {
     /// <summary>
     /// Checks if any entity satisfies the given specification.
