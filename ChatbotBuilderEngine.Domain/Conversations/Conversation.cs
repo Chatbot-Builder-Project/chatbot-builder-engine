@@ -43,6 +43,11 @@ public sealed class Conversation : AggregateRoot<ConversationId>
         return new Conversation(id, chatbotId, graphId, name);
     }
 
+    public void Update(string name)
+    {
+        Name = name;
+    }
+
     public void AddInputMessage(InputMessage inputMessage)
     {
         if (inputMessage.CreatedAt < _outputMessages.LastOrDefault()?.CreatedAt)

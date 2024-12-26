@@ -9,13 +9,13 @@ namespace ChatbotBuilderEngine.Domain.Conversations;
 
 public sealed class ConversationFlowService : IConversationFlowService
 {
-    private readonly IGraphTraversalService _graphTraversalService;
+    public IGraphTraversalService GraphTraversalService { get; }
 
-    private Graph Graph => _graphTraversalService.Graph;
+    private Graph Graph => GraphTraversalService.Graph;
 
     public ConversationFlowService(IGraphTraversalService graphTraversalService)
     {
-        _graphTraversalService = graphTraversalService;
+        GraphTraversalService = graphTraversalService;
     }
 
     private Conversation? _conversation;
@@ -46,7 +46,7 @@ public sealed class ConversationFlowService : IConversationFlowService
     {
         EnsureGraphMatches();
 
-        await _graphTraversalService.InitializeGraphAsync();
+        await GraphTraversalService.InitializeGraphAsync();
 
         AddOutput();
     }
@@ -61,7 +61,7 @@ public sealed class ConversationFlowService : IConversationFlowService
 
         AddInput(inputMessage);
 
-        var nextNodeId = await _graphTraversalService.TraverseAsync(Graph.CurrentNodeId);
+        var nextNodeId = await GraphTraversalService.TraverseAsync(Graph.CurrentNodeId);
         Graph.SetCurrentNodeId(nextNodeId);
 
         AddOutput();
