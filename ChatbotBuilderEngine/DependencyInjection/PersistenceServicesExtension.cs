@@ -1,4 +1,4 @@
-﻿using ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
+﻿using ChatbotBuilderEngine.Application.Core.Abstract;
 using ChatbotBuilderEngine.Persistence;
 using ChatbotBuilderEngine.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +17,5 @@ public static class PersistenceServicesExtension
         });
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
     }
 }
