@@ -9,7 +9,7 @@ public sealed class Workflow : AggregateRoot<WorkflowId>
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public UserId OwnerId { get; } = null!;
-    public Graph Graph { get; } = null!;
+    public Graph Graph { get; private set; } = null!;
 
     private Workflow(
         WorkflowId id,
@@ -38,5 +38,15 @@ public sealed class Workflow : AggregateRoot<WorkflowId>
         Graph graph)
     {
         return new Workflow(id, name, description, ownerId, graph);
+    }
+
+    public void Update(
+        string name,
+        string description,
+        Graph graph)
+    {
+        Name = name;
+        Description = description;
+        Graph = graph;
     }
 }
