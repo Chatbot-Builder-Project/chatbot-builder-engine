@@ -10,7 +10,7 @@ public sealed class Chatbot : AggregateRoot<ChatbotId>
 {
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
-    public WorkflowId WorkflowId { get; private set; } = null!;
+    public WorkflowId WorkflowId { get; } = null!;
     public Version Version { get; } = null!;
     public Graph Graph { get; } = null!;
     public bool IsPublic { get; private set; }
@@ -48,5 +48,15 @@ public sealed class Chatbot : AggregateRoot<ChatbotId>
         bool isPublic)
     {
         return new Chatbot(id, name, description, workflowId, version, graph, isPublic);
+    }
+
+    public void Update(
+        string name,
+        string description,
+        bool isPublic)
+    {
+        Name = name;
+        Description = description;
+        IsPublic = isPublic;
     }
 }
