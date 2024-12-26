@@ -1,4 +1,4 @@
-﻿using ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
+﻿using ChatbotBuilderEngine.Application.Core.Abstract;
 using ChatbotBuilderEngine.Application.Core.Shared.Notifications;
 using ChatbotBuilderEngine.Domain.Core.Abstract;
 using MediatR;

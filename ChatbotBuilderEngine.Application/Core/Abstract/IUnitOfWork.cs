@@ -1,4 +1,4 @@
-﻿namespace ChatbotBuilderEngine.Application.Core.Abstract.Repositories;
+﻿namespace ChatbotBuilderEngine.Application.Core.Abstract;
 
 public interface IUnitOfWork
 {
